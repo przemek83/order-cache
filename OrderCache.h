@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "OrderCacheInterface.h"
 
 class OrderCache : public OrderCacheInterface
@@ -13,4 +15,9 @@ public:
     unsigned int getMatchingSizeForSecurity(
         const std::string& securityId) override;
     std::vector<Order> getAllOrders() const override;
+
+private:
+    bool orderIsUnique(const std::string& orderId) const;
+
+    std::vector<Order> orders_;
 };

@@ -57,7 +57,7 @@ TEST_CASE("Adding order", "[orders]")
         cache.addOrder(order);
         Order similarOrder{"order2",    order.securityId(), order.side(),
                            order.qty(), order.user(),       order.company()};
-        REQUIRE_NOTHROW(cache.addOrder(order));
+        REQUIRE_NOTHROW(cache.addOrder(similarOrder));
     }
 
     SECTION("adding similar order with different order id - check orders")
@@ -66,7 +66,7 @@ TEST_CASE("Adding order", "[orders]")
         cache.addOrder(order);
         Order similarOrder{"order2",    order.securityId(), order.side(),
                            order.qty(), order.user(),       order.company()};
-        cache.addOrder(order);
+        cache.addOrder(similarOrder);
         REQUIRE(cache.getAllOrders() ==
                 std::vector<Order>{order, similarOrder});
     }
@@ -233,7 +233,7 @@ TEST_CASE("cancel orders for security with minimum quantity", "[orders]")
                            "user1",  "company1"};
         const Order order2{"order2", securityIdToCancel, "Buy", minQty,
                            "user1",  "company1"};
-        const Order order3{"order3", "sec1",  "Buy",
+        const Order order3{"order3", "sec2",  "Buy",
                            minQty,   "user1", "company1"};
         const Order order4{"order4", securityIdToCancel, "Buy", minQty - 1,
                            "user1",  "company1"};
