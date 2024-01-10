@@ -322,7 +322,7 @@ TEST_CASE("matching size for security", "[orders]")
         cache.addOrder({"OrdId13", "SecId1", "Sell", 1300, "User1", "Company"});
 
         REQUIRE(cache.getMatchingSizeForSecurity("SecId1") == 300);
-        REQUIRE(cache.getMatchingSizeForSecurity("SecId2") == 100);
+        REQUIRE(cache.getMatchingSizeForSecurity("SecId2") == 1000);
         REQUIRE(cache.getMatchingSizeForSecurity("SecId3") == 600);
     }
 
