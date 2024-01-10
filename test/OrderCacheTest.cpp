@@ -1,3 +1,4 @@
+#include <catch2/benchmark/catch_benchmark_all.hpp>
 #include <catch2/catch_test_macros.hpp>
 
 #include "../OrderCache.h"
@@ -270,6 +271,14 @@ TEST_CASE("matching size for security", "[orders]")
         REQUIRE(cache.getMatchingSizeForSecurity("sec1") == 2000);
     }
 
+    SECTION("single exact match")
+    {
+        cache.addOrder({"ord1", "sec1", "Buy", 2000, "user1", "company1"});
+        cache.addOrder({"ord2", "sec1", "Sell", 2000, "user1", "company2"});
+        cache.getMatchingSizeForSecurity("sec1");
+        REQUIRE(cache.getAllOrders() == std::vector<Order>{});
+    }
+
     SECTION("multiple matches")
     {
         cache.addOrder({"ord1", "sec1", "Buy", 10000, "user1", "company1"});
@@ -345,5 +354,77 @@ TEST_CASE("matching size for security", "[orders]")
         REQUIRE(cache.getMatchingSizeForSecurity("SecId1") == 900);
         REQUIRE(cache.getMatchingSizeForSecurity("SecId2") == 600);
         REQUIRE(cache.getMatchingSizeForSecurity("SecId3") == 0);
+    }
+}
+
+namespace
+{
+OrderCache generate(unsigned int numberPerSecurity)
+{
+    OrderCache cache;
+    for (unsigned int i = 0; i < numberPerSecurity; ++i)
+    {
+        const std::string suffixFirst{std::to_string(i)};
+        const std::string suffixSecond{std::to_string(numberPerSecurity + i)};
+        const std::string suffixthird{
+            std::to_string(numberPerSecurity * 2 + i)};
+        const std::string suffixFourth{
+            std::to_string(numberPerSecurity * 3 + i)};
+
+        cache.addOrder(
+            {"order" + suffixFirst, "sec", "Buy", numberPerSecurity + 0,
+             "user" + std::to_string(numberPerSecurity % 4), "company1"});
+        cache.addOrder(
+            {"order" + suffixSecond, "sec", "Buy", numberPerSecurity + i,
+             "user" + std::to_string(numberPerSecurity % 4), "company2"});
+        cache.addOrder(
+            {"order" + suffixthird, "sec", "Sell", numberPerSecurity + 2 * i,
+             "user" + std::to_string(numberPerSecurity % 4), "company3"});
+        cache.addOrder(
+            {"order" + suffixFourth, "sec", "Sell", numberPerSecurity + 3 * i,
+             "user" + std::to_string(numberPerSecurity % 4), "company4"});
+    }
+
+    return cache;
+}
+
+const int numberPerSecurity{20000};
+
+static const OrderCache defaultCache{generate(numberPerSecurity)};
+
+}  // namespace
+
+TEST_CASE("benchmarks", "[orders]")
+{
+    OrderCache cache{defaultCache};
+
+    SECTION("matching size")
+    {
+        // 10k 249985000
+        // 20k 999964605
+        REQUIRE(cache.getMatchingSizeForSecurity("sec") == 999964605);
+    }
+
+    SECTION("adding orders")
+    {
+        OrderCache testCache{generate(numberPerSecurity)};
+    }
+
+    SECTION("cancel order")
+    {
+        cache.cancelOrder("order" + std::to_string(numberPerSecurity -
+                                                   numberPerSecurity / 4));
+    }
+
+    SECTION("cancel order for user") { cache.cancelOrdersForUser("user3"); }
+
+    SECTION("cancel order for sec id with minimum qty")
+    {
+        cache.cancelOrdersForSecIdWithMinimumQty("sec", 1000);
+    }
+
+    SECTION("get orders")
+    {
+        REQUIRE(cache.getAllOrders().size() == numberPerSecurity * 4);
     }
 }

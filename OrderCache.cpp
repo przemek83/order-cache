@@ -7,7 +7,7 @@ void OrderCache::addOrder(Order order)
 {
     // TODO order validate
     if (!orderIsUnique(order.orderId()))
-        throw std::logic_error("Duplicated order id while adding order: " +
+        throw std::logic_error("Duplicated id while adding order: " +
                                order.orderId());
     orders_.emplace_back(std::move(order));
 }
