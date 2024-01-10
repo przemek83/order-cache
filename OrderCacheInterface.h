@@ -20,8 +20,10 @@ class Order
   std::string user() const       { return m_user; }
   std::string company() const    { return m_company; }
   unsigned int qty() const       { return m_qty; }
-  
- private:
+
+  void setQty(unsigned int qty) { m_qty = qty; }
+
+  private:
   
   // use the below to hold the order data
   // do not remove the these member variables  
