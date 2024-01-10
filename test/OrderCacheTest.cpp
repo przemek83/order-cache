@@ -250,7 +250,27 @@ TEST_CASE("matching size for security", "[orders]")
 {
     OrderCache cache;
 
-    SECTION("basic match")
+    SECTION("match on empty cache")
+    {
+        REQUIRE(cache.getMatchingSizeForSecurity("sec1") == 0);
+    }
+
+    SECTION("no match")
+    {
+        cache.addOrder({"ord1", "sec1", "Buy", 10000, "user1", "company1"});
+        cache.addOrder({"ord2", "sec1", "Sell", 2000, "user1", "company2"});
+        cache.addOrder({"ord3", "sec1", "Sell", 1000, "user1", "company2"});
+        REQUIRE(cache.getMatchingSizeForSecurity("sec2") == 0);
+    }
+
+    SECTION("single match")
+    {
+        cache.addOrder({"ord1", "sec1", "Buy", 10000, "user1", "company1"});
+        cache.addOrder({"ord2", "sec1", "Sell", 2000, "user1", "company2"});
+        REQUIRE(cache.getMatchingSizeForSecurity("sec1") == 2000);
+    }
+
+    SECTION("multiple matches")
     {
         cache.addOrder({"ord1", "sec1", "Buy", 10000, "user1", "company1"});
         cache.addOrder({"ord2", "sec1", "Sell", 2000, "user1", "company2"});
@@ -258,7 +278,7 @@ TEST_CASE("matching size for security", "[orders]")
         REQUIRE(cache.getMatchingSizeForSecurity("sec1") == 3000);
     }
 
-    SECTION("basic cannot reuse matching size")
+    SECTION("cannot reuse matching size")
     {
         cache.addOrder({"ord1", "sec1", "Buy", 10000, "user1", "company1"});
         cache.addOrder({"ord2", "sec1", "Sell", 2000, "user1", "company2"});
@@ -266,26 +286,64 @@ TEST_CASE("matching size for security", "[orders]")
         cache.getMatchingSizeForSecurity("sec1");
         REQUIRE(cache.getMatchingSizeForSecurity("sec1") == 0);
     }
+
+    SECTION("matching multiple securities #1")
+    {
+        cache.addOrder({"OrdId1", "SecId1", "Buy", 1000, "User1", "CompanyA"});
+        cache.addOrder({"OrdId2", "SecId2", "Sell", 3000, "User2", "CompanyB"});
+        cache.addOrder({"OrdId3", "SecId1", "Sell", 500, "User3", "CompanyA"});
+        cache.addOrder({"OrdId4", "SecId2", "Buy", 600, "User4", "CompanyC"});
+        cache.addOrder({"OrdId5", "SecId2", "Buy", 100, "User5", "CompanyB"});
+        cache.addOrder({"OrdId6", "SecId3", "Buy", 1000, "User6", "CompanyD"});
+        cache.addOrder({"OrdId7", "SecId2", "Buy", 2000, "User7", "CompanyE"});
+        cache.addOrder({"OrdId8", "SecId2", "Sell", 5000, "User8", "CompanyE"});
+
+        REQUIRE(cache.getMatchingSizeForSecurity("SecId1") == 0);
+        REQUIRE(cache.getMatchingSizeForSecurity("SecId2") == 2700);
+        REQUIRE(cache.getMatchingSizeForSecurity("SecId3") == 0);
+    }
+
+    SECTION("matching multiple securities #2")
+    {
+        cache.addOrder({"OrdId1", "SecId1", "Sell", 100, "User10", "Company2"});
+        cache.addOrder({"OrdId2", "SecId3", "Sell", 200, "User8", "Company2"});
+        cache.addOrder({"OrdId3", "SecId1", "Buy", 300, "User13", "Company2"});
+        cache.addOrder({"OrdId4", "SecId2", "Sell", 400, "User12", "Company2"});
+        cache.addOrder({"OrdId5", "SecId3", "Sell", 500, "User7", "Company2"});
+        cache.addOrder({"OrdId6", "SecId3", "Buy", 600, "User3", "Company1"});
+        cache.addOrder({"OrdId7", "SecId1", "Sell", 700, "User10", "Company2"});
+        cache.addOrder({"OrdId8", "SecId1", "Sell", 800, "User2", "Company1"});
+        cache.addOrder({"OrdId9", "SecId2", "Buy", 900, "User6", "Company2"});
+        cache.addOrder(
+            {"OrdId10", "SecId2", "Sell", 1000, "User5", "Company1"});
+        cache.addOrder(
+            {"OrdId11", "SecId1", "Sell", 1100, "User13", "Company2"});
+        cache.addOrder({"OrdId12", "SecId2", "Buy", 1200, "User9", "Company2"});
+        cache.addOrder({"OrdId13", "SecId1", "Sell", 1300, "User1", "Company"});
+
+        REQUIRE(cache.getMatchingSizeForSecurity("SecId1") == 300);
+        REQUIRE(cache.getMatchingSizeForSecurity("SecId2") == 100);
+        REQUIRE(cache.getMatchingSizeForSecurity("SecId3") == 600);
+    }
+
+    SECTION("matching multiple securities #3")
+    {
+        cache.addOrder({"OrdId1", "SecId3", "Sell", 100, "User1", "Company1"});
+        cache.addOrder({"OrdId2", "SecId3", "Sell", 200, "User3", "Company2"});
+        cache.addOrder({"OrdId3", "SecId1", "Buy", 300, "User2", "Company1"});
+        cache.addOrder({"OrdId4", "SecId3", "Sell", 400, "User5", "Company2"});
+        cache.addOrder({"OrdId5", "SecId2", "Sell", 500, "User2", "Company1"});
+        cache.addOrder({"OrdId6", "SecId2", "Buy", 600, "User3", "Company2"});
+        cache.addOrder({"OrdId7", "SecId2", "Sell", 700, "User1", "Company1"});
+        cache.addOrder({"OrdId8", "SecId1", "Sell", 800, "User2", "Company1"});
+        cache.addOrder({"OrdId9", "SecId1", "Buy", 900, "User5", "Company2"});
+        cache.addOrder(
+            {"OrdId10", "SecId1", "Sell", 1000, "User1", "Company1"});
+        cache.addOrder(
+            {"OrdId11", "SecId2", "Sell", 1100, "User6", "Company2"});
+
+        REQUIRE(cache.getMatchingSizeForSecurity("SecId1") == 900);
+        REQUIRE(cache.getMatchingSizeForSecurity("SecId2") == 600);
+        REQUIRE(cache.getMatchingSizeForSecurity("SecId3") == 0);
+    }
 }
-
-// TEST_CASE("Exercise", "[orders]")
-//{
-//     OrderCache cache;
-
-//    SECTION("basic match")
-//    {
-//        cache.addOrder({"ord1", "sec1", "Buy", 10000, "user1", "company1"});
-//        cache.addOrder({"ord2", "sec1", "Sell", 2000, "user1", "company2"});
-//        cache.addOrder({"ord3", "sec1", "Sell", 1000, "user1", "company2"});
-//        REQUIRE(cache.getMatchingSizeForSecurity("sec1") == 3000);
-//    }
-
-//    SECTION("basic cannot reuse matching size")
-//    {
-//        cache.addOrder({"ord1", "sec1", "Buy", 10000, "user1", "company1"});
-//        cache.addOrder({"ord2", "sec1", "Sell", 2000, "user1", "company2"});
-//        cache.addOrder({"ord3", "sec1", "Sell", 1000, "user1", "company2"});
-//        cache.getMatchingSizeForSecurity("sec1");
-//        REQUIRE(cache.getMatchingSizeForSecurity("sec1") == 0);
-//    }
-//}
