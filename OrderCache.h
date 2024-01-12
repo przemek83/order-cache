@@ -1,6 +1,8 @@
 #pragma once
 
-#include <vector>
+#include <functional>
+#include <list>
+#include <map>
 
 #include "OrderCacheInterface.h"
 
@@ -17,7 +19,24 @@ public:
     std::vector<Order> getAllOrders() const override;
 
 private:
-    bool orderIsUnique(const std::string& orderId) const;
+    static unsigned int matchSellOrders(std::list<Order>& sellOrders,
+                                        std::list<Order>::iterator buyIt);
 
-    std::vector<Order> orders_;
+    static void removeOrdersUsingCondition(
+        std::list<Order>& orders,
+        const std::function<bool(const Order&)>& condition);
+
+    std::list<Order>& getBuyOrders(const std::string& securityId);
+    std::list<Order>& getSellOrders(const std::string& securityId);
+
+    static bool removeOrder(std::list<Order>& orders,
+                            const std::string& orderId);
+
+    struct BuySellOrders
+    {
+        std::list<Order> buyOrders_;
+        std::list<Order> sellOrders_;
+    };
+
+    std::map<std::string, BuySellOrders> ordersMap_;
 };

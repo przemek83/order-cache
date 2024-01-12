@@ -42,7 +42,7 @@ TEST_CASE("Adding order", "[orders]")
         cache.addOrder(order2);
         cache.addOrder(order3);
         REQUIRE(cache.getAllOrders() ==
-                std::vector<Order>{order1, order2, order3});
+                std::vector<Order>{order2, order3, order1});
     }
 
     SECTION("adding same order twice")
@@ -243,7 +243,7 @@ TEST_CASE("cancel orders for security with minimum quantity", "[orders]")
         cache.addOrder(order3);
         cache.addOrder(order4);
         cache.cancelOrdersForSecIdWithMinimumQty(securityIdToCancel, minQty);
-        REQUIRE(cache.getAllOrders() == std::vector<Order>{order3, order4});
+        REQUIRE(cache.getAllOrders() == std::vector<Order>{order4, order3});
     }
 }
 
@@ -359,6 +359,9 @@ TEST_CASE("matching size for security", "[orders]")
 
 namespace
 {
+const int numberPerSecurity{200000};
+const int securitiesCount{100};
+
 OrderCache generate(unsigned int numberPerSecurity)
 {
     OrderCache cache;
@@ -372,42 +375,46 @@ OrderCache generate(unsigned int numberPerSecurity)
             std::to_string(numberPerSecurity * 3 + i)};
 
         cache.addOrder(
-            {"order" + suffixFirst, "sec", "Buy", numberPerSecurity + 0,
+            {"order" + suffixFirst, "sec" + std::to_string(i % securitiesCount),
+             "Buy", numberPerSecurity + 0,
              "user" + std::to_string(numberPerSecurity % 4), "company1"});
+        cache.addOrder({"order" + suffixSecond,
+                        "sec" + std::to_string(i % securitiesCount), "Buy",
+                        numberPerSecurity + i,
+                        "user" + std::to_string(numberPerSecurity % 4),
+                        "company2"});
         cache.addOrder(
-            {"order" + suffixSecond, "sec", "Buy", numberPerSecurity + i,
-             "user" + std::to_string(numberPerSecurity % 4), "company2"});
-        cache.addOrder(
-            {"order" + suffixthird, "sec", "Sell", numberPerSecurity + 2 * i,
+            {"order" + suffixthird, "sec" + std::to_string(i % securitiesCount),
+             "Sell", numberPerSecurity + 2 * i,
              "user" + std::to_string(numberPerSecurity % 4), "company3"});
-        cache.addOrder(
-            {"order" + suffixFourth, "sec", "Sell", numberPerSecurity + 3 * i,
-             "user" + std::to_string(numberPerSecurity % 4), "company4"});
+        cache.addOrder({"order" + suffixFourth,
+                        "sec" + std::to_string(i % securitiesCount), "Sell",
+                        numberPerSecurity + 3 * i,
+                        "user" + std::to_string(numberPerSecurity % 4),
+                        "company4"});
     }
 
     return cache;
 }
 
-const int numberPerSecurity{20000};
-
-static const OrderCache defaultCache{generate(numberPerSecurity)};
+static OrderCache defaultCache;
 
 }  // namespace
 
 TEST_CASE("benchmarks", "[orders]")
 {
+    //    SKIP();
     OrderCache cache{defaultCache};
+
+    SECTION("adding orders") { defaultCache = generate(numberPerSecurity); }
 
     SECTION("matching size")
     {
-        // 10k 249985000
-        // 20k 999964605
-        REQUIRE(cache.getMatchingSizeForSecurity("sec") == 999964605);
-    }
-
-    SECTION("adding orders")
-    {
-        OrderCache testCache{generate(numberPerSecurity)};
+        // 10k 2494900
+        // 20k 9989900
+        // 100k 249949900 249850000
+        // 200k 999899900 999612100 999900000
+        REQUIRE(cache.getMatchingSizeForSecurity("sec0") == 999900000);
     }
 
     SECTION("cancel order")
