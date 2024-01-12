@@ -30,7 +30,7 @@ public:
 
     void matchQty(unsigned int qty) { m_leftToMatchQty -= qty; }
 
-    unsigned int leftToMatchQty() { return m_leftToMatchQty; }
+    unsigned int leftToMatchQty() const { return m_leftToMatchQty; }
 
     void resetMatchedQty() { m_leftToMatchQty = m_qty; }
 
@@ -39,7 +39,7 @@ public:
         if (m_orderId.empty() || m_securityId.empty() || m_user.empty() ||
             m_company.empty() || m_qty == 0)
             return false;
-        return m_side == "Sell" || m_side == "Buy";
+        return m_side == "Sell" || isBuy();
     }
 
     bool isFullyMatched() const { return m_leftToMatchQty == 0; }

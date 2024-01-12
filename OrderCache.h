@@ -1,8 +1,8 @@
 #pragma once
 
 #include <functional>
-#include <list>
 #include <map>
+#include <vector>
 
 #include "OrderCacheInterface.h"
 
@@ -19,23 +19,31 @@ public:
     std::vector<Order> getAllOrders() const override;
 
 private:
-    static unsigned int matchSellOrders(std::list<Order>& sellOrders,
-                                        std::list<Order>::iterator buyIt);
+    static std::pair<unsigned int, int> matchOpositeOrders(
+        std::vector<Order>& oppositeOrders, const Order& order,
+        unsigned int fromIndex);
 
     static void removeOrdersUsingCondition(
-        std::list<Order>& orders,
+        std::vector<Order>& orders,
         const std::function<bool(const Order&)>& condition);
 
-    std::list<Order>& getBuyOrders(const std::string& securityId);
-    std::list<Order>& getSellOrders(const std::string& securityId);
+    std::vector<Order>& getBuyOrders(const std::string& securityId);
+    std::vector<Order>& getSellOrders(const std::string& securityId);
 
-    static bool removeOrder(std::list<Order>& orders,
+    std::pair<std::vector<Order>&, std::vector<Order>&> getOrdersForMatching(
+        const std::string& securityId);
+
+    static bool removeOrder(std::vector<Order>& orders,
                             const std::string& orderId);
+
+    size_t countOrders() const;
+
+    static void resetMathedQuantities(std::vector<Order>& orders);
 
     struct BuySellOrders
     {
-        std::list<Order> buyOrders_;
-        std::list<Order> sellOrders_;
+        std::vector<Order> buyOrders_;
+        std::vector<Order> sellOrders_;
     };
 
     std::map<std::string, BuySellOrders> ordersMap_;
