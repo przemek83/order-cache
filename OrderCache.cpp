@@ -62,13 +62,16 @@ unsigned int OrderCache::getMatchingSizeForSecurity(
     auto& buyOrders{getBuyOrders(securityId)};
     auto& sellOrders{getSellOrders(securityId)};
 
+    std::for_each(sellOrders.begin(), sellOrders.end(),
+                  [](auto& order) { order.resetMatchedQty(); });
+
     auto buyIt{buyOrders.begin()};
     while (buyIt != buyOrders.end())
     {
+        buyIt->resetMatchedQty();
         const unsigned int matchedSize{matchSellOrders(sellOrders, buyIt)};
-        buyIt->subtractQty(matchedSize);
         matchedSum += matchedSize;
-        buyIt->isEmpty() ? buyIt = buyOrders.erase(buyIt) : buyIt++;
+        buyIt++;
     }
 
     return matchedSum;
@@ -98,15 +101,15 @@ unsigned int OrderCache::matchSellOrders(std::list<Order>& sellOrders,
     auto sellIt{sellOrders.begin()};
     while (sellIt != sellOrders.end() && buyIt->qty() > matchedSum)
     {
-        if (sellIt->company() != buyCompany)
+        if (sellIt->company() != buyCompany && !sellIt->isFullyMatched())
         {
             const unsigned int matchedQty{
-                std::min(buyIt->qty() - matchedSum, sellIt->qty())};
-            sellIt->subtractQty(matchedQty);
+                std::min(buyIt->qty() - matchedSum, sellIt->leftToMatchQty())};
+            sellIt->matchQty(matchedQty);
             matchedSum += matchedQty;
         }
 
-        sellIt->isEmpty() ? sellIt = sellOrders.erase(sellIt) : sellIt++;
+        sellIt++;
     }
 
     return matchedSum;

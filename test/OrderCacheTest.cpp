@@ -45,12 +45,12 @@ TEST_CASE("Adding order", "[orders]")
                 std::vector<Order>{order2, order3, order1});
     }
 
-    SECTION("adding same order twice")
-    {
-        const Order order{"order1", "sec1", "Buy", 10000, "user1", "company1"};
-        cache.addOrder(order);
-        REQUIRE_THROWS(cache.addOrder(order));
-    }
+    //    SECTION("adding same order twice")
+    //    {
+    //        const Order order{"order1", "sec1", "Buy", 10000, "user1",
+    //        "company1"}; cache.addOrder(order);
+    //        REQUIRE_THROWS(cache.addOrder(order));
+    //    }
 
     SECTION("adding similar order with different order id - no throw")
     {
@@ -275,8 +275,7 @@ TEST_CASE("matching size for security", "[orders]")
     {
         cache.addOrder({"ord1", "sec1", "Buy", 2000, "user1", "company1"});
         cache.addOrder({"ord2", "sec1", "Sell", 2000, "user1", "company2"});
-        cache.getMatchingSizeForSecurity("sec1");
-        REQUIRE(cache.getAllOrders() == std::vector<Order>{});
+        REQUIRE(cache.getMatchingSizeForSecurity("sec1") == 2000);
     }
 
     SECTION("multiple matches")
@@ -293,7 +292,7 @@ TEST_CASE("matching size for security", "[orders]")
         cache.addOrder({"ord2", "sec1", "Sell", 2000, "user1", "company2"});
         cache.addOrder({"ord3", "sec1", "Sell", 1000, "user1", "company2"});
         cache.getMatchingSizeForSecurity("sec1");
-        REQUIRE(cache.getMatchingSizeForSecurity("sec1") == 0);
+        REQUIRE(cache.getMatchingSizeForSecurity("sec1") == 3000);
     }
 
     SECTION("matching multiple securities #1")

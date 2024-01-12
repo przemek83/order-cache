@@ -15,7 +15,8 @@ public:
           m_side(side),
           m_qty(qty),
           m_user(user),
-          m_company(company)
+          m_company(company),
+          m_leftToMatchQty(qty)
     {
     }
 
@@ -27,7 +28,11 @@ public:
     std::string company() const { return m_company; }
     unsigned int qty() const { return m_qty; }
 
-    void subtractQty(unsigned int qty) { m_qty -= qty; }
+    void matchQty(unsigned int qty) { m_leftToMatchQty -= qty; }
+
+    unsigned int leftToMatchQty() { return m_leftToMatchQty; }
+
+    void resetMatchedQty() { m_leftToMatchQty = m_qty; }
 
     bool isValid() const
     {
@@ -37,7 +42,7 @@ public:
         return m_side == "Sell" || m_side == "Buy";
     }
 
-    bool isEmpty() const { return m_qty == 0; }
+    bool isFullyMatched() const { return m_leftToMatchQty == 0; }
 
     bool isBuy() const { return m_side == "Buy"; }
 
@@ -50,6 +55,8 @@ private:
     unsigned int m_qty;        // qty for this order
     std::string m_user;        // user name who owns this order
     std::string m_company;     // company for user
+
+    unsigned int m_leftToMatchQty;
 };
 
 // Provide an implementation for the OrderCacheInterface interface class.
