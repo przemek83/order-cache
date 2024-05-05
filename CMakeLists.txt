@@ -14,7 +14,7 @@ set(${PROJECT_NAME}_SOURCES
     main.cpp
     OrderCacheImpl.h
     OrderCacheImpl.cpp
-    OrderCacheInterface.h
+    OrderCache.h
     )
 
 add_executable(${CMAKE_PROJECT_NAME} ${${PROJECT_NAME}_SOURCES})

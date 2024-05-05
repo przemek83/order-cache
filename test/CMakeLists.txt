@@ -6,7 +6,7 @@ set(${PROJECT_TEST}_SOURCES
     OrderCacheTest.cpp
     ../OrderCacheImpl.h
     ../OrderCacheImpl.cpp
-    ../OrderCacheInterface.h
+    ../OrderCache.h
     )
 
 add_executable(${PROJECT_TEST} ${${PROJECT_TEST}_SOURCES})
