@@ -4,8 +4,8 @@ include_directories(${CMAKE_SOURCE_DIR})
 
 set(${PROJECT_TEST}_SOURCES
     OrderCacheTest.cpp
-    ../OrderCache.h
-    ../OrderCache.cpp
+    ../OrderCacheImpl.h
+    ../OrderCacheImpl.cpp
     ../OrderCacheInterface.h
     )
 

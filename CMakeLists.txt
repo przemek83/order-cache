@@ -12,8 +12,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(${PROJECT_NAME}_SOURCES
     main.cpp
-    OrderCache.h
-    OrderCache.cpp
+    OrderCacheImpl.h
+    OrderCacheImpl.cpp
     OrderCacheInterface.h
     )
 
