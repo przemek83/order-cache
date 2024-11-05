@@ -31,4 +31,9 @@
 *.out
 *.app
 
+# Other
+/.vscode
+/build
+/**/__pycache__
+/.cache
 *.user
