@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.8)
 
-project(tradeweb
+project(order-cache
     LANGUAGES CXX
     VERSION 1.0.0
     DESCRIPTION "Interview coding assignment."
-    HOMEPAGE_URL "https://github.com/przemek83/tradeweb")
+    HOMEPAGE_URL "https://github.com/przemek83/order-cache")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
