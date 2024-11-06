@@ -1,5 +1,7 @@
 #include "OrderCacheImpl.h"
 
+#include "Order.h"
+
 #include <algorithm>
 #include <stdexcept>
 

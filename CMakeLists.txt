@@ -21,7 +21,10 @@ set(${PROJECT_NAME}_SOURCES
     src/OrderCacheImpl.h
     src/OrderCacheImpl.cpp
     src/OrderCache.h
+    src/Order.h
+    src/Order.cpp
     )
+
 
 
 add_library (${PROJECT_NAME}-lib STATIC ${${PROJECT_NAME}_SOURCES})
