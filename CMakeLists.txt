@@ -18,9 +18,8 @@ if(CODE_COVERAGE)
 endif()
 
 set(${PROJECT_NAME}_SOURCES
-    src/OrderCacheImpl.h
-    src/OrderCacheImpl.cpp
     src/OrderCache.h
+    src/OrderCache.cpp
     src/Order.h
     src/Order.cpp
     )

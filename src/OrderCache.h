@@ -1,36 +1,50 @@
 #pragma once
 
+#include <functional>
+#include <map>
 #include <string>
+#include <vector>
 
 #include "Order.h"
 
-// Provide an implementation for the OrderCacheInterface interface class.
-// Your implementation class should hold all relevant data structures you think
-// are needed.
-class OrderCacheInterface
+class OrderCache
 {
 public:
-    virtual ~OrderCacheInterface() = default;
+    void addOrder(Order order);
+    void cancelOrder(const std::string& orderId);
+    void cancelOrdersForUser(const std::string& user);
+    void cancelOrdersForSecIdWithMinimumQty(const std::string& securityId,
+                                            unsigned int minQty);
+    unsigned int getMatchingSizeForSecurity(const std::string& securityId);
+    std::vector<Order> getAllOrders() const;
 
-    // implement the 6 methods below, do not alter signatures
+private:
+    static std::pair<unsigned int, int> matchOpositeOrders(
+        std::vector<Order>& oppositeOrders, const Order& order,
+        unsigned int fromIndex);
 
-    // add order to the cache
-    virtual void addOrder(Order order) = 0;
+    static void removeOrdersUsingCondition(
+        std::vector<Order>& orders,
+        const std::function<bool(const Order&)>& condition);
 
-    // remove order with this unique order id from the cache
-    virtual void cancelOrder(const std::string& orderId) = 0;
+    std::vector<Order>& getBuyOrders(const std::string& securityId);
+    std::vector<Order>& getSellOrders(const std::string& securityId);
 
-    // remove all orders in the cache for this user
-    virtual void cancelOrdersForUser(const std::string& user) = 0;
+    std::pair<std::vector<Order>&, std::vector<Order>&> getOrdersForMatching(
+        const std::string& securityId);
 
-    // remove all orders in the cache for this security with qty >= minQty
-    virtual void cancelOrdersForSecIdWithMinimumQty(
-        const std::string& securityId, unsigned int minQty) = 0;
+    static bool removeOrder(std::vector<Order>& orders,
+                            const std::string& orderId);
 
-    // return the total qty that can match for the security id
-    virtual unsigned int getMatchingSizeForSecurity(
-        const std::string& securityId) = 0;
+    size_t countOrders() const;
 
-    // return all orders in cache in a vector
-    virtual std::vector<Order> getAllOrders() const = 0;
+    static void resetMathedQuantities(std::vector<Order>& orders);
+
+    struct BuySellOrders
+    {
+        std::vector<Order> buyOrders_;
+        std::vector<Order> sellOrders_;
+    };
+
+    std::map<std::string, BuySellOrders> ordersMap_;
 };
