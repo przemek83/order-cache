@@ -215,6 +215,16 @@ TEST_CASE("cancel orders for security with minimum quantity", "[orders]")
         REQUIRE(cache.getAllOrders() == std::vector<Order>{order});
     }
 
+    SECTION("cancel not existing security and quantity")
+    {
+        const Order order{"order1", securityIdToCancel, "Buy", minQty,
+                          "user1",  "company1"};
+        cache.addOrder(order);
+        cache.cancelOrdersForSecIdWithMinimumQty(securityIdToCancel + "wrong",
+                                                 minQty + 1);
+        REQUIRE(cache.getAllOrders() == std::vector<Order>{order});
+    }
+
     SECTION("cancel for existing")
     {
         const Order order1{"order1", securityIdToCancel, "Buy", minQty,
