@@ -25,7 +25,7 @@ Create orders cache getting orders on input and having following operations avai
 
 Solution needed to be very fast.
 
-Application initially was created as solution for interview assignment. After some extensions, cleaning and removal of not needed code I've decided to publish it. Solution did not pass, scarce feedback stated that it is too complex. Still I had a lot of fun doing it, especially profiling and gradually improving performance :)
+Application initially was created as solution for interview assignment. After some extensions, cleaning and removal of not needed code I've decided to publish it. Solution did not pass, minimal feedback stated that it is too complex. Still I had a lot of fun doing it, especially profiling and gradually improving performance :)
 
 **Input**:  
 Aplication expects orders as input, one per line. Order contains:
