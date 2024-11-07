@@ -15,7 +15,17 @@
 [TODO]
 
 ## Problem description
-[TODO]
+Create orders cache getting orders on input and having following operations available in public interface:
+- `addOrder` having Order object as param and adding it to cache,
+- `cancelOrder` having order id as param and cancelling order with given id,
+- `cancelOrdersForUser` having user id as param and cancelling all orders from given user,
+- `cancelOrdersForSecIdWithMinimumQty` having security id and minimum quantity, fulfilling cancelation for given security if there is quantity threshold reached,
+- `getMatchingSizeForSecurity` having security id as param and returning matched (buy to sell or sell to buy) quantity,
+- `getAllOrders` returning vector of orders.
+
+Solution needed to be very fast.
+
+Application initially was created as solution for interview assignment. After some extensions, cleaning and removal of not needed code I've decided to publish it. Solution did not pass, scarce feedback stated that it is too complex. Still I had a lot of fun doing it, especially profiling and gradually improving performance :)
 
 **Input**:  
 Aplication expects orders as input, one per line. Order contains:
