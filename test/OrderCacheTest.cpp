@@ -422,7 +422,7 @@ const int numberPerSecurity{200000};
 
 }  // namespace
 
-TEST_CASE("benchmarks", "[orders]")
+TEST_CASE("Benchmark", "[orders]")
 {
     //    SKIP();
     OrderCache cache{defaultCache};
