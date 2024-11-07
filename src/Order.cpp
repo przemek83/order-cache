@@ -1,41 +1,39 @@
 #include "Order.h"
 
-// do not alter signature of this constructor
 Order::Order(const std::string& ordId, const std::string& secId,
              const std::string& side, const unsigned int qty,
              const std::string& user, const std::string& company)
-    : m_orderId(ordId),
-      m_securityId(secId),
-      m_side(side),
-      m_qty(qty),
-      m_user(user),
-      m_company(company),
+    : orderId_(ordId),
+      securityId_(secId),
+      side_(side),
+      qty_(qty),
+      user_(user),
+      company_(company),
       m_leftToMatchQty(qty)
 {
 }
 
-// do not alter these accessor methods
-std::string Order::orderId() const { return m_orderId; }
-std::string Order::securityId() const { return m_securityId; }
-std::string Order::side() const { return m_side; }
-std::string Order::user() const { return m_user; }
-std::string Order::company() const { return m_company; }
-unsigned int Order::qty() const { return m_qty; }
+std::string Order::getOrderId() const { return orderId_; }
+std::string Order::getSecurityId() const { return securityId_; }
+std::string Order::getSide() const { return side_; }
+std::string Order::getUser() const { return user_; }
+std::string Order::getCompany() const { return company_; }
+unsigned int Order::getQty() const { return qty_; }
 
 void Order::matchQty(unsigned int qty) { m_leftToMatchQty -= qty; }
 
 unsigned int Order::leftToMatchQty() const { return m_leftToMatchQty; }
 
-void Order::resetMatchedQty() { m_leftToMatchQty = m_qty; }
+void Order::resetMatchedQty() { m_leftToMatchQty = qty_; }
 
 bool Order::isValid() const
 {
-    if (m_orderId.empty() || m_securityId.empty() || m_user.empty() ||
-        m_company.empty() || m_qty == 0)
+    if (orderId_.empty() || securityId_.empty() || user_.empty() ||
+        company_.empty() || qty_ == 0)
         return false;
-    return m_side == "Sell" || isBuy();
+    return side_ == "Sell" || isBuy();
 }
 
 bool Order::isFullyMatched() const { return m_leftToMatchQty == 0; }
 
-bool Order::isBuy() const { return m_side == "Buy"; }
+bool Order::isBuy() const { return side_ == "Buy"; }

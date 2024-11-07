@@ -8,9 +8,9 @@
 void OrderCache::addOrder(Order order)
 {
     if (!order.isValid())
-        throw std::logic_error("Invalid order: " + order.orderId());
+        throw std::logic_error("Invalid order: " + order.getOrderId());
 
-    const std::string& securityId{order.securityId()};
+    const std::string& securityId{order.getSecurityId()};
     std::vector<Order>& orders{order.isBuy() ? getBuyOrders(securityId)
                                              : getSellOrders(securityId)};
     orders.emplace_back(std::move(order));
@@ -30,7 +30,8 @@ void OrderCache::cancelOrder(const std::string& orderId)
 void OrderCache::cancelOrdersForUser(const std::string& user)
 {
     const std::function<bool(const Order&)> condition{
-        [&userId = user](const auto& order) { return order.user() == userId; }};
+        [&userId = user](const auto& order)
+        { return order.getUser() == userId; }};
 
     for (auto& [secId, buySellOrders] : ordersMap_)
     {
@@ -47,7 +48,7 @@ void OrderCache::cancelOrdersForSecIdWithMinimumQty(
 
     const std::function<bool(const Order&)> condition{
         [&id = securityId, qty = minQty](const auto& order)
-        { return order.securityId() == id && order.qty() >= qty; }};
+        { return order.getSecurityId() == id && order.getQty() >= qty; }};
 
     removeOrdersUsingCondition(getBuyOrders(securityId), condition);
     removeOrdersUsingCondition(getSellOrders(securityId), condition);
@@ -103,14 +104,14 @@ std::pair<unsigned int, int> OrderCache::matchOpositeOrders(
 {
     unsigned int matchedSum{0};
     for (size_t i{fromIndex};
-         i < oppositeOrders.size() && order.qty() > matchedSum; ++i)
+         i < oppositeOrders.size() && order.getQty() > matchedSum; ++i)
     {
         Order& oppositeOrder{oppositeOrders[i]};
-        if (oppositeOrder.company() == order.company())
+        if (oppositeOrder.getCompany() == order.getCompany())
             continue;
 
-        const unsigned int matchedQty{
-            std::min(order.qty() - matchedSum, oppositeOrder.leftToMatchQty())};
+        const unsigned int matchedQty{std::min(order.getQty() - matchedSum,
+                                               oppositeOrder.leftToMatchQty())};
         oppositeOrder.matchQty(matchedQty);
         matchedSum += matchedQty;
 
@@ -163,7 +164,7 @@ bool OrderCache::removeOrder(std::vector<Order>& orders,
                              const std::string& orderId)
 {
     const auto condition{[&id = orderId](const auto& order)
-                         { return order.orderId() == id; }};
+                         { return order.getOrderId() == id; }};
 
     auto it{std::find_if(orders.begin(), orders.end(), condition)};
     if (it != orders.end())

@@ -5,17 +5,19 @@
 
 bool operator==(const Order& left, const Order& right)
 {
-    return left.orderId() == right.orderId() &&
-           left.company() == right.company() && left.qty() == right.qty() &&
-           left.securityId() == right.securityId() &&
-           left.side() == right.side() && left.user() == right.user();
+    return left.getOrderId() == right.getOrderId() &&
+           left.getCompany() == right.getCompany() &&
+           left.getQty() == right.getQty() &&
+           left.getSecurityId() == right.getSecurityId() &&
+           left.getSide() == right.getSide() &&
+           left.getUser() == right.getUser();
 }
 
 std::ostream& operator<<(std::ostream& os, const Order& order)
 {
-    os << "[" << order.orderId() << "," << order.securityId() << ","
-       << order.side() << "," << order.user() << "," << order.company() << ","
-       << order.qty() << "]";
+    os << "[" << order.getOrderId() << "," << order.getSecurityId() << ","
+       << order.getSide() << "," << order.getUser() << "," << order.getCompany()
+       << "," << order.getQty() << "]";
     return os;
 }
 
@@ -56,8 +58,9 @@ TEST_CASE("Adding order", "[orders]")
     {
         const Order order{"order1", "sec1", "Buy", 10000, "user1", "company1"};
         cache.addOrder(order);
-        Order similarOrder{"order2",    order.securityId(), order.side(),
-                           order.qty(), order.user(),       order.company()};
+        Order similarOrder{"order2",        order.getSecurityId(),
+                           order.getSide(), order.getQty(),
+                           order.getUser(), order.getCompany()};
         REQUIRE_NOTHROW(cache.addOrder(similarOrder));
     }
 
@@ -65,8 +68,9 @@ TEST_CASE("Adding order", "[orders]")
     {
         const Order order{"order1", "sec1", "Buy", 10000, "user1", "company1"};
         cache.addOrder(order);
-        Order similarOrder{"order2",    order.securityId(), order.side(),
-                           order.qty(), order.user(),       order.company()};
+        Order similarOrder{"order2",        order.getSecurityId(),
+                           order.getSide(), order.getQty(),
+                           order.getUser(), order.getCompany()};
         cache.addOrder(similarOrder);
         REQUIRE(cache.getAllOrders() ==
                 std::vector<Order>{order, similarOrder});
@@ -358,7 +362,6 @@ TEST_CASE("matching size for security", "[orders]")
 
 namespace
 {
-const int numberPerSecurity{200000};
 const int securitiesCount{100};
 
 OrderCache generate(unsigned int numberPerSecurity)
@@ -397,6 +400,7 @@ OrderCache generate(unsigned int numberPerSecurity)
 }
 
 static OrderCache defaultCache;
+const int numberPerSecurity{200000};
 
 }  // namespace
 

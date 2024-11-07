@@ -9,12 +9,12 @@ public:
           const std::string& side, const unsigned int qty,
           const std::string& user, const std::string& company);
 
-    std::string orderId() const;
-    std::string securityId() const;
-    std::string side() const;
-    std::string user() const;
-    std::string company() const;
-    unsigned int qty() const;
+    std::string getOrderId() const;
+    std::string getSecurityId() const;
+    std::string getSide() const;
+    std::string getUser() const;
+    std::string getCompany() const;
+    unsigned int getQty() const;
 
     void matchQty(unsigned int qty);
 
@@ -29,12 +29,12 @@ public:
     bool isBuy() const;
 
 private:
-    std::string m_orderId;     // unique order id
-    std::string m_securityId;  // security identifier
-    std::string m_side;        // side of the order, eg Buy or Sell
-    unsigned int m_qty;        // qty for this order
-    std::string m_user;        // user name who owns this order
-    std::string m_company;     // company for user
+    std::string orderId_;
+    std::string securityId_;
+    std::string side_;
+    unsigned int qty_;
+    std::string user_;
+    std::string company_;
 
     unsigned int m_leftToMatchQty;
 };
