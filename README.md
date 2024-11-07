@@ -8,4 +8,213 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=przemek83_order-cache&metric=coverage)](https://sonarcloud.io/summary/new_code?id=przemek83_order-cache)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=przemek83_order-cache&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=przemek83_order-cache)
 
-# order-cache [WIP - Work In Progress]
+## Order cache [WIP - Work In Progress]
+[TODO]
+
+## Table of content
+[TODO]
+
+## Problem description
+[TODO]
+
+**Input**:  
+[TODO]
+
+**Output**:  
+[TODO]
+
+## Getting Started
+This section describes briefly how to setup the environment and build the project.
+
+### Prerequisites
+C++ compiler with C++17 support as a minimum and CMake 3.14+. Additionally, Git tool for downloading Catch2 Test library as it is needed by test subproject.
+
+### Building
+Clone and use CMake directly or via any IDE supporting it. CMake should:
+
+- configure everything automatically,
+- compile and create binaries.
+
+As a result of compilation, binary for simulations and binary for testing should be created.
+
+## Built with
+| Tool |  Windows 10 | Ubuntu 24.04 |
+| --- | --- | --- |
+| OS version | 10 22H2 | 24.04 |
+| GCC | 13.1.0 | 13.2.0 |
+| CMake | 3.30.2 | 3.28.3 |
+| Git | 2.46.0 | 2.43.0 |
+| Catch2 | 3.7.0 | 3.7.0 |
+
+## Example run
+[TODO]
+
+### Example input:
+[TODO]
+
+### Example output:
+[TODO]
+
+## Usage:  
+Program can run in multiple ways. Here are 3 example ones to run it:
+1. Pass example file named `sample.txt` from project repo:
+    ```shell
+    $ ./order-cache < sample.txt
+    Matching size:
+    SecId1: 300
+    SecId2: 1000
+    SecId3: 600
+    ```
+2. Use binary directly and type data:
+    ```shell
+    $ ./order-cache
+    OrdId1 SecId1 Sell 100 User10 Company2
+    OrdId2 SecId3 Sell 200 User8 Company2
+    OrdId3 SecId1 Buy 300 User13 Company2
+    OrdId4 SecId2 Sell 400 User12 Company2
+    OrdId5 SecId3 Sell 500 User7 Company2
+    OrdId6 SecId3 Buy 600 User3 Company1
+    OrdId7 SecId1 Sell 700 User10 Company2
+    OrdId8 SecId1 Sell 800 User2 Company1
+    OrdId9 SecId2 Buy 900 User6 Company2
+    OrdId10 SecId2 Sell 1000 User5 Company1
+    OrdId11 SecId1 Sell 1100 User13 Company2
+    OrdId12 SecId2 Buy 1200 User9 Company2
+    OrdId13 SecId1 Sell 1300 User1 CompanyMatching size:
+    SecId1: 300
+    SecId2: 1000
+    SecId3: 600
+    ```
+3. Pipe input:
+    ```shell
+    $ cat sample.txt | ./order-cache 
+    Matching size:
+    SecId1: 300
+    SecId2: 1000
+    SecId3: 600
+    ```
+## Testing
+For testing purposes, the gtest framework is used. Build the project first. Make sure that the `order-cache-test` target is built. Modern IDEs supporting CMake also support running tests with monitoring of failures. But in case you would like to run it manually, go to the `build/test` directory, where the⁣ binary `order-cache-test` should be available. Launching it should produce the following output on Linux:
+Example run:
+```
+$ ./order-cache-test -d yes
+Randomness seeded to: 950809468
+0.000 s: empty
+0.000 s: Adding order
+0.000 s: single add
+0.000 s: Adding order
+0.000 s: multiple add
+0.000 s: Adding order
+0.000 s: adding similar order with different order id - no throw
+0.000 s: Adding order
+0.000 s: adding similar order with different order id - check orders
+0.000 s: Adding order
+0.000 s: adding ivalid order
+0.000 s: Adding order
+0.000 s: adding ivalid order
+0.000 s: Adding order
+0.000 s: adding ivalid order
+0.000 s: Adding order
+0.000 s: adding ivalid order
+0.000 s: Adding order
+0.000 s: adding ivalid order
+0.000 s: Adding order
+0.000 s: adding ivalid order
+0.000 s: Adding order
+0.000 s: adding ivalid order
+0.000 s: Adding order
+0.000 s: adding ivalid order
+0.000 s: Adding order
+0.000 s: cancel empty
+0.000 s: cancel order
+0.000 s: cancel not existing
+0.000 s: cancel order
+0.000 s: cancel existing
+0.000 s: cancel order
+0.000 s: cancel existing twice
+0.000 s: cancel order
+0.000 s: cancel empty
+0.000 s: cancel orders for user
+0.000 s: cancel not existing
+0.000 s: cancel orders for user
+0.000 s: cancel for existing
+0.000 s: cancel orders for user
+0.000 s: cancel existing twice
+0.000 s: cancel orders for user
+0.000 s: cancel multiple
+0.000 s: cancel orders for user
+0.000 s: cancel empty
+0.000 s: cancel orders for security with minimum quantity
+0.000 s: cancel not existing security
+0.000 s: cancel orders for security with minimum quantity
+0.000 s: cancel not existing quantity
+0.000 s: cancel orders for security with minimum quantity
+0.000 s: cancel not existing security and quantity
+0.000 s: cancel orders for security with minimum quantity
+0.000 s: cancel for existing
+0.000 s: cancel orders for security with minimum quantity
+0.000 s: cancel existing twice
+0.000 s: cancel orders for security with minimum quantity
+0.000 s: cancel multiple
+0.000 s: cancel orders for security with minimum quantity
+0.000 s: match on empty cache
+0.000 s: matching size for security
+0.000 s: no match
+0.000 s: matching size for security
+0.000 s: single match
+0.000 s: matching size for security
+0.000 s: single exact match
+0.000 s: matching size for security
+0.000 s: multiple matches
+0.000 s: matching size for security
+0.000 s: cannot reuse matching size
+0.000 s: matching size for security
+0.000 s: matching multiple securities #1
+0.000 s: matching size for security
+0.000 s: matching multiple securities #2
+0.000 s: matching size for security
+0.000 s: matching multiple securities #3
+0.000 s: matching size for security
+0.488 s: adding orders
+0.488 s: benchmarks
+0.001 s: matching size
+0.114 s: benchmarks
+0.000 s: cancel order
+0.112 s: benchmarks
+0.045 s: cancel order for user
+0.158 s: benchmarks
+0.000 s: cancel order for sec id with minimum qty
+0.116 s: benchmarks
+0.074 s: get orders
+0.188 s: benchmarks
+===============================================================================
+All tests passed (46 assertions in 6 test cases)
+```
+As an alternative, CTest can be used to run tests from the `build/test` directory:
+
+    $ ctest
+    Test project /home/ja/GitHubProjects/order-cache/build/test
+        Start 1: Adding order
+    1/6 Test #1: Adding order .......................................   Passed    0.00 sec
+        Start 2: cancel order
+    2/6 Test #2: cancel order .......................................   Passed    0.00 sec
+        Start 3: cancel orders for user
+    3/6 Test #3: cancel orders for user .............................   Passed    0.00 sec
+        Start 4: cancel orders for security with minimum quantity
+    4/6 Test #4: cancel orders for security with minimum quantity ...   Passed    0.00 sec
+        Start 5: matching size for security
+    5/6 Test #5: matching size for security .........................   Passed    0.00 sec
+        Start 6: benchmarks
+    6/6 Test #6: benchmarks .........................................   Passed    1.16 sec
+
+    100% tests passed, 0 tests failed out of 6
+
+    Total Test time (real) =   1.18 sec
+
+## License
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+The project uses the following open-source software:
+| Name | License | Home | Description |
+| --- | --- | --- | --- |
+| Catch2 | BSL-1.0 | https://github.com/catchorg/Catch2 | testing framework for C++ |
