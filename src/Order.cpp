@@ -29,7 +29,7 @@ void Order::resetMatchedQty() { leftToMatchQty_ = qty_; }
 bool Order::isValid() const
 {
     if (orderId_.empty() || securityId_.empty() || user_.empty() ||
-        company_.empty() || qty_ == 0)
+        company_.empty() || qty_ <= 0)
         return false;
     return side_ == "Sell" || isBuy();
 }

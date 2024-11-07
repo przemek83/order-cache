@@ -1,5 +1,6 @@
 #include <catch2/benchmark/catch_benchmark_all.hpp>
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/generators/catch_generators.hpp>
 
 #include <src/OrderCache.h>
 
@@ -47,13 +48,6 @@ TEST_CASE("Adding order", "[orders]")
                 std::vector<Order>{order2, order3, order1});
     }
 
-    //    SECTION("adding same order twice")
-    //    {
-    //        const Order order{"order1", "sec1", "Buy", 10000, "user1",
-    //        "company1"}; cache.addOrder(order);
-    //        REQUIRE_THROWS(cache.addOrder(order));
-    //    }
-
     SECTION("adding similar order with different order id - no throw")
     {
         const Order order{"order1", "sec1", "Buy", 10000, "user1", "company1"};
@@ -74,6 +68,20 @@ TEST_CASE("Adding order", "[orders]")
         cache.addOrder(similarOrder);
         REQUIRE(cache.getAllOrders() ==
                 std::vector<Order>{order, similarOrder});
+    }
+
+    SECTION("adding ivalid order")
+    {
+        Order order{GENERATE(
+            Order{"", "sec1", "Buy", 10000, "user1", "company1"},
+            Order{"ord1", "", "Buy", 10000, "user1", "company1"},
+            Order{"ord1", "sec1", "", 10000, "user1", "company1"},
+            Order{"ord1", "sec1", "Buy", 10000, "", "company1"},
+            Order{"ord1", "sec1", "Buy", 10000, "user1", ""},
+            Order{"ord1", "sec1", "Buy", 0, "user1", "company1"},
+            Order{"ord1", "sec1", "Buy", -1000, "user1", "company1"},
+            Order{"ord1", "sec1", "NotBuy", 10000, "user1", "company1"})};
+        REQUIRE_THROWS(cache.addOrder(order));
     }
 }
 
