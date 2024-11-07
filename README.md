@@ -48,14 +48,14 @@ Application expects orders as input, one per line. Order contains:
 
 Example:
 
-    OrdId1 SecId1 Sell 100 User10 Company2
+    OrdId1 SecId2 Buy 1100 User10 Company1
 
 **Output**:  
 Run of application outputs for each security-matched quantity in the current order cache. Output in each line prints the security id followed by a colon and quantity.
 
 Example:
 
-    SecId1: 300
+    SecId1: 3250
 
 ## Getting Started
 This section describes briefly how to setup the environment and build the project.
@@ -86,38 +86,43 @@ The program can run in multiple ways. Here are 3 examples of how to run it:
     ```shell
     $ ./order-cache < sample.txt
     Matching quantity:
-    SecId1: 300
-    SecId2: 1000
-    SecId3: 600
+    SecId1: 3250
+    SecId2: 850
+    SecId3: 1300
     ```
 2. Use binary directly and type data:
     ```shell
     $ ./order-cache
-    OrdId1 SecId1 Sell 100 User10 Company2
-    OrdId2 SecId3 Sell 200 User8 Company2
-    OrdId3 SecId1 Buy 300 User13 Company2
-    OrdId4 SecId2 Sell 400 User12 Company2
-    OrdId5 SecId3 Sell 500 User7 Company2
-    OrdId6 SecId3 Buy 600 User3 Company1
-    OrdId7 SecId1 Sell 700 User10 Company2
-    OrdId8 SecId1 Sell 800 User2 Company1
-    OrdId9 SecId2 Buy 900 User6 Company2
-    OrdId10 SecId2 Sell 1000 User5 Company1
-    OrdId11 SecId1 Sell 1100 User13 Company2
-    OrdId12 SecId2 Buy 1200 User9 Company2
-    OrdId13 SecId1 Sell 1300 User1 Company
+    OrdId1 SecId2 Buy 1100 User10 Company1
+    OrdId2 SecId2 Sell 2500 User8 Company1
+    OrdId3 SecId1 Sell 800 User13 Company2
+    OrdId4 SecId1 Buy 600 User12 Company3
+    OrdId5 SecId3 Buy 300 User7 Company3
+    OrdId6 SecId3 Sell 550 User3 Company1
+    OrdId7 SecId3 Sell 750 User10 Company3
+    OrdId8 SecId1 Buy 850 User2 Company3
+    OrdId9 SecId1 Buy 950 User6 Company1
+    OrdId10 SecId3 Buy 900 User5 Company2
+    OrdId11 SecId2 Sell 1150 User13 Company1
+    OrdId12 SecId2 Sell 850 User9 Company2
+    OrdId13 SecId1 Buy 1350 User1 Company3
+    OrdId14 SecId1 Sell 1250 User5 Company2
+    OrdId15 SecId3 Buy 1400 User13 Company1
+    OrdId16 SecId1 Sell 1200 User9 Company2
+    OrdId17 SecId2 Sell 1050 User1 Company1
     Matching quantity:
-    SecId1: 300
-    SecId2: 1000
-    SecId3: 600
+    SecId1: 3250
+    SecId2: 850
+    SecId3: 1300
+
     ```
 3. Pipe input:
     ```shell
     $ cat sample.txt | ./order-cache 
     Matching quantity:
-    SecId1: 300
-    SecId2: 1000
-    SecId3: 600
+    SecId1: 3250
+    SecId2: 850
+    SecId3: 1300
     ```
 ## Testing
 For testing purposes, the Catch2 framework is used. Build the project first. Make sure that the `order-cache-test` target is built. Modern IDEs supporting CMake also support running tests with monitoring of failures. But in case you would like to run it manually, go to the `build/test` directory, where the⁣ binary `order-cache-test` should be available. Launching it should produce the following output on Linux:
