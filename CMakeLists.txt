@@ -24,7 +24,7 @@ set(${PROJECT_NAME}_SOURCES
     src/Order.cpp
     )
 
-
+file(COPY sample.txt DESTINATION ${CMAKE_BINARY_DIR})
 
 add_library (${PROJECT_NAME}-lib STATIC ${${PROJECT_NAME}_SOURCES})
 target_link_libraries(${PROJECT_NAME}-lib)
