@@ -46,5 +46,5 @@ private:
         std::vector<Order> sellOrders_;
     };
 
-    std::map<std::string, BuySellOrders> ordersMap_;
+    std::map<std::string, BuySellOrders, std::less<>> ordersMap_;
 };

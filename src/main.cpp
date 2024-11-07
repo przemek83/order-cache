@@ -7,7 +7,7 @@
 int main()
 {
     OrderCache cache;
-    std::set<std::string> securities;
+    std::set<std::string, std::less<>> securities;
     std::string line;
     while (std::getline(std::cin, line))
     {
