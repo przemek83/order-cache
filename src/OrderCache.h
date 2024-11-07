@@ -19,7 +19,7 @@ public:
     std::vector<Order> getAllOrders() const;
 
 private:
-    static std::pair<int, int> matchOpositeOrders(
+    static std::pair<int, std::size_t> matchOpositeOrders(
         std::vector<Order>& oppositeOrders, const Order& order,
         std::size_t fromIndex);
 

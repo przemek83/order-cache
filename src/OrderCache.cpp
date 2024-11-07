@@ -64,7 +64,7 @@ int OrderCache::getMatchingSizeForSecurity(const std::string& securityId)
 
     int matchedSize{0};
     // Index used to skip already matched opposite orders. Optimization.
-    int startingOppositeIndex{0};
+    std::size_t startingOppositeIndex{0};
     for (const auto& order : orders)
     {
         int matchedPartial{0};
@@ -97,7 +97,7 @@ std::vector<Order> OrderCache::getAllOrders() const
     return allOrders;
 }
 
-std::pair<int, int> OrderCache::matchOpositeOrders(
+std::pair<int, std::size_t> OrderCache::matchOpositeOrders(
     std::vector<Order>& oppositeOrders, const Order& order,
     std::size_t fromIndex)
 {
