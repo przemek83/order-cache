@@ -14,14 +14,13 @@ public:
     void cancelOrder(const std::string& orderId);
     void cancelOrdersForUser(const std::string& user);
     void cancelOrdersForSecIdWithMinimumQty(const std::string& securityId,
-                                            unsigned int minQty);
-    unsigned int getMatchingSizeForSecurity(const std::string& securityId);
+                                            int minQty);
+    int getMatchingSizeForSecurity(const std::string& securityId);
     std::vector<Order> getAllOrders() const;
 
 private:
-    static std::pair<unsigned int, int> matchOpositeOrders(
-        std::vector<Order>& oppositeOrders, const Order& order,
-        unsigned int fromIndex);
+    static std::pair<int, int> matchOpositeOrders(
+        std::vector<Order>& oppositeOrders, const Order& order, int fromIndex);
 
     static void removeOrdersUsingCondition(
         std::vector<Order>& orders,

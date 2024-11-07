@@ -41,7 +41,7 @@ void OrderCache::cancelOrdersForUser(const std::string& user)
 }
 
 void OrderCache::cancelOrdersForSecIdWithMinimumQty(
-    const std::string& securityId, unsigned int minQty)
+    const std::string& securityId, int minQty)
 {
     if (ordersMap_.find(securityId) == ordersMap_.end())
         return;
@@ -54,8 +54,7 @@ void OrderCache::cancelOrdersForSecIdWithMinimumQty(
     removeOrdersUsingCondition(getSellOrders(securityId), condition);
 }
 
-unsigned int OrderCache::getMatchingSizeForSecurity(
-    const std::string& securityId)
+int OrderCache::getMatchingSizeForSecurity(const std::string& securityId)
 {
     if (ordersMap_.find(securityId) == ordersMap_.end())
         return 0;
@@ -63,12 +62,12 @@ unsigned int OrderCache::getMatchingSizeForSecurity(
     // Take longer vector as orders, shorter as opposite orders. Optimization.
     auto [orders, oppositeOrders]{getOrdersForMatching(securityId)};
 
-    unsigned int matchedSize{0};
+    int matchedSize{0};
     // Index used to skip already matched opposite orders. Optimization.
-    unsigned int startingOppositeIndex{0};
+    int startingOppositeIndex{0};
     for (const auto& order : orders)
     {
-        unsigned int matchedPartial{0};
+        int matchedPartial{0};
         std::tie(matchedPartial, startingOppositeIndex) =
             matchOpositeOrders(oppositeOrders, order, startingOppositeIndex);
         matchedSize += matchedPartial;
@@ -98,11 +97,10 @@ std::vector<Order> OrderCache::getAllOrders() const
     return allOrders;
 }
 
-std::pair<unsigned int, int> OrderCache::matchOpositeOrders(
-    std::vector<Order>& oppositeOrders, const Order& order,
-    unsigned int fromIndex)
+std::pair<int, int> OrderCache::matchOpositeOrders(
+    std::vector<Order>& oppositeOrders, const Order& order, int fromIndex)
 {
-    unsigned int matchedSum{0};
+    int matchedSum{0};
     for (size_t i{fromIndex};
          i < oppositeOrders.size() && order.getQty() > matchedSum; ++i)
     {
@@ -110,8 +108,8 @@ std::pair<unsigned int, int> OrderCache::matchOpositeOrders(
         if (oppositeOrder.getCompany() == order.getCompany())
             continue;
 
-        const unsigned int matchedQty{std::min(order.getQty() - matchedSum,
-                                               oppositeOrder.leftToMatchQty())};
+        const int matchedQty{std::min(order.getQty() - matchedSum,
+                                      oppositeOrder.leftToMatchQty())};
         oppositeOrder.matchQty(matchedQty);
         matchedSum += matchedQty;
 

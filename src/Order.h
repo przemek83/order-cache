@@ -6,19 +6,19 @@ class Order
 {
 public:
     Order(const std::string& ordId, const std::string& secId,
-          const std::string& side, const unsigned int qty,
-          const std::string& user, const std::string& company);
+          const std::string& side, int qty, const std::string& user,
+          const std::string& company);
 
     std::string getOrderId() const;
     std::string getSecurityId() const;
     std::string getSide() const;
     std::string getUser() const;
     std::string getCompany() const;
-    unsigned int getQty() const;
+    int getQty() const;
 
-    void matchQty(unsigned int qty);
+    void matchQty(int qty);
 
-    unsigned int leftToMatchQty() const;
+    int leftToMatchQty() const;
 
     void resetMatchedQty();
 
@@ -32,9 +32,8 @@ private:
     std::string orderId_;
     std::string securityId_;
     std::string side_;
-    unsigned int qty_;
+    int qty_;
     std::string user_;
     std::string company_;
-
-    unsigned int m_leftToMatchQty;
+    int leftToMatchQty_;
 };
