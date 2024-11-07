@@ -28,8 +28,16 @@ Aplication expects orders as input, one per line. Order contains:
 | user | user making order | not empty |
 | company | company making order | not empty |
 
+Example:
+
+    OrdId1 SecId1 Sell 100 User10 Company2
+
 **Output**:  
-[TODO]
+Run of application outputs for each security matched quantity in current orders cache. Output in each line prints security id followed by colon and quantity.
+
+Example:
+
+    SecId1: 300
 
 ## Getting Started
 This section describes briefly how to setup the environment and build the project.
@@ -59,7 +67,7 @@ Program can run in multiple ways. Here are 3 example ones to run it:
 1. Pass example file named `sample.txt` from project repo:
     ```shell
     $ ./order-cache < sample.txt
-    Matching size:
+    Matching quantity:
     SecId1: 300
     SecId2: 1000
     SecId3: 600
@@ -80,7 +88,7 @@ Program can run in multiple ways. Here are 3 example ones to run it:
     OrdId11 SecId1 Sell 1100 User13 Company2
     OrdId12 SecId2 Buy 1200 User9 Company2
     OrdId13 SecId1 Sell 1300 User1 Company
-    Matching size:
+    Matching quantity:
     SecId1: 300
     SecId2: 1000
     SecId3: 600
@@ -88,7 +96,7 @@ Program can run in multiple ways. Here are 3 example ones to run it:
 3. Pipe input:
     ```shell
     $ cat sample.txt | ./order-cache 
-    Matching size:
+    Matching quantity:
     SecId1: 300
     SecId2: 1000
     SecId3: 600
