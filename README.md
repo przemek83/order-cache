@@ -61,7 +61,7 @@ Example:
 This section describes briefly how to setup the environment and build the project.
 
 ### Prerequisites
-C++ compiler with C++17 support as a minimum and CMake 3.14+. Additionally, the Git tool for downloading Catch2 Test library as it is needed by test subproject.
+C++ compiler with C++17 support as a minimum and CMake 3.14+. Additionally, the Git tool for downloading Catch2 test library as it is needed by test subproject.
 
 ### Building
 Clone and use CMake directly or via any IDE supporting it. CMake should:
