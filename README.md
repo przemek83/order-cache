@@ -20,23 +20,23 @@
 - [License](#license)
 
 ## About project
-Financial orders cache with option to add, remove and match orders quickly.
+Financial orders cache with the option to add, remove and match orders quickly.
 
 ## Problem description
-Create orders cache getting orders on input and having following operations available in public interface:
+Create an order cache with orders on input and the following operations available in the public interface:
 - `addOrder` having Order object as param and adding it to cache,
-- `cancelOrder` having order id as param and cancelling order with given id,
-- `cancelOrdersForUser` having user id as param and cancelling all orders from given user,
-- `cancelOrdersForSecIdWithMinimumQty` having security id and minimum quantity, fulfilling cancelation for given security if there is quantity threshold reached,
+- `cancelOrder` having an order id as param and canceling an order with the given id,
+- `cancelOrdersForUser` having user id as param and canceling all orders from given user,
+- `cancelOrdersForSecIdWithMinimumQty` having security id and minimum quantity, fulfilling cancellation for given security if there is quantity threshold reached,
 - `getMatchingSizeForSecurity` having security id as param and returning matched (buy to sell or sell to buy) quantity,
 - `getAllOrders` returning vector of orders.
 
-Solution needed to be very fast.
+The solution needed to be very fast.
 
-Application initially was created as solution for interview assignment. After some extensions, cleaning and removal of not needed code I've decided to publish it. Solution did not pass, minimal feedback stated that it is too complex. Still I had a lot of fun doing it, especially profiling and gradually improving performance :)
+The application was initially a solution for an interview assignment. After some extensions, cleaning and removal of not-needed code, I've decided to publish it. Solution did not pass, minimal feedback stated that it was too complex. Still I had a lot of fun doing it, especially profiling and gradually improving performance :)
 
 **Input**:  
-Aplication expects orders as input, one per line. Order contains:
+Application expects orders as input, one per line. Order contains:
 | field | description | restrictions |
 | --- | --- | --- |
 | id | order id | not empty |
@@ -51,7 +51,7 @@ Example:
     OrdId1 SecId1 Sell 100 User10 Company2
 
 **Output**:  
-Run of application outputs for each security matched quantity in current orders cache. Output in each line prints security id followed by colon and quantity.
+Run of application outputs for each security-matched quantity in the current order cache. Output in each line prints the security id followed by a colon and quantity.
 
 Example:
 
@@ -61,7 +61,7 @@ Example:
 This section describes briefly how to setup the environment and build the project.
 
 ### Prerequisites
-C++ compiler with C++17 support as a minimum and CMake 3.14+. Additionally, Git tool for downloading Catch2 Test library as it is needed by test subproject.
+C++ compiler with C++17 support as a minimum and CMake 3.14+. Additionally, the Git tool for downloading Catch2 Test library as it is needed by test subproject.
 
 ### Building
 Clone and use CMake directly or via any IDE supporting it. CMake should:
@@ -81,7 +81,7 @@ As a result of compilation, binary for simulations and binary for testing should
 | Catch2 | 3.7.0 | 3.7.0 |
 
 ## Usage:  
-Program can run in multiple ways. Here are 3 example ones to run it:
+The program can run in multiple ways. Here are 3 examples of how to run it:
 1. Pass example file named `sample.txt` from project repo:
     ```shell
     $ ./order-cache < sample.txt
@@ -120,7 +120,7 @@ Program can run in multiple ways. Here are 3 example ones to run it:
     SecId3: 600
     ```
 ## Testing
-For testing purposes, the gtest framework is used. Build the project first. Make sure that the `order-cache-test` target is built. Modern IDEs supporting CMake also support running tests with monitoring of failures. But in case you would like to run it manually, go to the `build/test` directory, where the⁣ binary `order-cache-test` should be available. Launching it should produce the following output on Linux:
+For testing purposes, the Catch2 framework is used. Build the project first. Make sure that the `order-cache-test` target is built. Modern IDEs supporting CMake also support running tests with monitoring of failures. But in case you would like to run it manually, go to the `build/test` directory, where the⁣ binary `order-cache-test` should be available. Launching it should produce the following output on Linux:
 Example run:
 ```
 $ ./order-cache-test
