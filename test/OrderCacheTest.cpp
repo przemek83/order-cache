@@ -269,7 +269,7 @@ TEST_CASE("cancel orders for security with minimum quantity", "[orders]")
     }
 }
 
-TEST_CASE("matching size for security", "[orders]")
+TEST_CASE("matching quantity for security", "[orders]")
 {
     OrderCache cache;
 
@@ -429,7 +429,7 @@ TEST_CASE("Benchmark", "[orders]")
 
     SECTION("adding orders") { defaultCache = generate(numberPerSecurity); }
 
-    SECTION("matching size")
+    SECTION("matching quantity")
     {
         // 10k 2494900
         // 20k 9989900
