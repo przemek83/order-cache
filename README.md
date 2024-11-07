@@ -18,7 +18,15 @@
 [TODO]
 
 **Input**:  
-[TODO]
+Aplication expects orders as input, one per line. Order contains:
+| field | description | restrictions |
+| --- | --- | --- |
+| id | order id | not empty |
+| security id | security id used in order| not empty |
+| side | type of order | Buy/Sell |
+| quantity | quantity of securities to buy/sell | > 0 |
+| user | user making order | not empty |
+| company | company making order | not empty |
 
 **Output**:  
 [TODO]
@@ -46,38 +54,6 @@ As a result of compilation, binary for simulations and binary for testing should
 | Git | 2.46.0 | 2.43.0 |
 | Catch2 | 3.7.0 | 3.7.0 |
 
-## Example run
-Aplication expects orders, one per line. Order contains:
-| field | description | restrictions |
-| --- | --- | --- |
-| id | order id | not empty |
-| security id | security id used in order| not empty |
-| side | type of order | Buy/Sell |
-| quantity | quantity of securities to buy/sell | > 0 |
-| user | user making order | not empty |
-| company | company making order | not empty |
-
-### Example input:
-    OrdId1 SecId1 Sell 100 User10 Company2
-    OrdId2 SecId3 Sell 200 User8 Company2
-    OrdId3 SecId1 Buy 300 User13 Company2
-    OrdId4 SecId2 Sell 400 User12 Company2
-    OrdId5 SecId3 Sell 500 User7 Company2
-    OrdId6 SecId3 Buy 600 User3 Company1
-    OrdId7 SecId1 Sell 700 User10 Company2
-    OrdId8 SecId1 Sell 800 User2 Company1
-    OrdId9 SecId2 Buy 900 User6 Company2
-    OrdId10 SecId2 Sell 1000 User5 Company1
-    OrdId11 SecId1 Sell 1100 User13 Company2
-    OrdId12 SecId2 Buy 1200 User9 Company2
-    OrdId13 SecId1 Sell 1300 User1 Company
-
-### Example output:
-    Matching size:
-    SecId1: 300
-    SecId2: 1000
-    SecId3: 600
-
 ## Usage:  
 Program can run in multiple ways. Here are 3 example ones to run it:
 1. Pass example file named `sample.txt` from project repo:
@@ -91,7 +67,19 @@ Program can run in multiple ways. Here are 3 example ones to run it:
 2. Use binary directly and type data:
     ```shell
     $ ./order-cache
-    <typed/pasted orders from sample.txt>
+    OrdId1 SecId1 Sell 100 User10 Company2
+    OrdId2 SecId3 Sell 200 User8 Company2
+    OrdId3 SecId1 Buy 300 User13 Company2
+    OrdId4 SecId2 Sell 400 User12 Company2
+    OrdId5 SecId3 Sell 500 User7 Company2
+    OrdId6 SecId3 Buy 600 User3 Company1
+    OrdId7 SecId1 Sell 700 User10 Company2
+    OrdId8 SecId1 Sell 800 User2 Company1
+    OrdId9 SecId2 Buy 900 User6 Company2
+    OrdId10 SecId2 Sell 1000 User5 Company1
+    OrdId11 SecId1 Sell 1100 User13 Company2
+    OrdId12 SecId2 Buy 1200 User9 Company2
+    OrdId13 SecId1 Sell 1300 User1 Company
     Matching size:
     SecId1: 300
     SecId2: 1000
