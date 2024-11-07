@@ -23,7 +23,7 @@ int main()
         securities.insert(secId);
     }
 
-    std::cout << "Matching size:\n";
+    std::cout << "Matching quantity:\n";
     for (const auto& sec : securities)
         std::cout << sec << ": " << cache.getMatchingSizeForSecurity(sec)
                   << "\n";
