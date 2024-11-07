@@ -98,7 +98,8 @@ std::vector<Order> OrderCache::getAllOrders() const
 }
 
 std::pair<int, int> OrderCache::matchOpositeOrders(
-    std::vector<Order>& oppositeOrders, const Order& order, int fromIndex)
+    std::vector<Order>& oppositeOrders, const Order& order,
+    std::size_t fromIndex)
 {
     int matchedSum{0};
     for (size_t i{fromIndex};

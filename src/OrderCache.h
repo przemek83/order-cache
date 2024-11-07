@@ -20,7 +20,8 @@ public:
 
 private:
     static std::pair<int, int> matchOpositeOrders(
-        std::vector<Order>& oppositeOrders, const Order& order, int fromIndex);
+        std::vector<Order>& oppositeOrders, const Order& order,
+        std::size_t fromIndex);
 
     static void removeOrdersUsingCondition(
         std::vector<Order>& orders,

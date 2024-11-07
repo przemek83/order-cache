@@ -364,10 +364,10 @@ namespace
 {
 const int securitiesCount{100};
 
-OrderCache generate(unsigned int numberPerSecurity)
+OrderCache generate(int numberPerSecurity)
 {
     OrderCache cache;
-    for (unsigned int i = 0; i < numberPerSecurity; ++i)
+    for (int i = 0; i < numberPerSecurity; ++i)
     {
         const std::string suffixFirst{std::to_string(i)};
         const std::string suffixSecond{std::to_string(numberPerSecurity + i)};
