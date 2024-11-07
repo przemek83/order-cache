@@ -38,7 +38,7 @@ private:
 
     size_t countOrders() const;
 
-    static void resetMathedQuantities(std::vector<Order>& orders);
+    static void resetMatchedQuantities(std::vector<Order>& orders);
 
     struct BuySellOrders
     {

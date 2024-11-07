@@ -74,7 +74,7 @@ int OrderCache::getMatchingSizeForSecurity(const std::string& securityId)
     }
 
     // Reset matched quantities to default values equal qty.
-    resetMathedQuantities(oppositeOrders);
+    resetMatchedQuantities(oppositeOrders);
 
     return matchedSize;
 }
@@ -184,7 +184,7 @@ size_t OrderCache::countOrders() const
     return count;
 }
 
-void OrderCache::resetMathedQuantities(std::vector<Order>& orders)
+void OrderCache::resetMatchedQuantities(std::vector<Order>& orders)
 {
     std::for_each(orders.begin(), orders.end(),
                   [](auto& order) { order.resetMatchedQty(); });
