@@ -8,11 +8,19 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=przemek83_order-cache&metric=coverage)](https://sonarcloud.io/summary/new_code?id=przemek83_order-cache)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=przemek83_order-cache&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=przemek83_order-cache)
 
-## Order cache [WIP - Work In Progress]
-[TODO]
-
 ## Table of content
-[TODO]
+- [About project](#about-project)
+- [Problem description](#problem-description)
+- [Getting Started](#getting-started)
+   * [Prerequisites](#prerequisites)
+   * [Building](#building)
+- [Built with](#built-with)
+- [Usage:  ](#usage)
+- [Testing](#testing)
+- [License](#license)
+
+## About project
+Financial orders cache with option to add, remove and match orders quickly.
 
 ## Problem description
 Create orders cache getting orders on input and having following operations available in public interface:
