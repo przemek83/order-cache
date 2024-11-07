@@ -165,8 +165,8 @@ bool OrderCache::removeOrder(std::vector<Order>& orders,
     const auto condition{[&id = orderId](const auto& order)
                          { return order.getOrderId() == id; }};
 
-    auto it{std::find_if(orders.begin(), orders.end(), condition)};
-    if (it != orders.end())
+    if (auto it{std::find_if(orders.begin(), orders.end(), condition)};
+        it != orders.end())
     {
         orders.erase(it);
         return true;
