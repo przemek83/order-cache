@@ -20,7 +20,7 @@
 - [License](#license)
 
 ## About project
-Financial orders cache with the option to add, remove and match orders quickly.
+Fast financial orders cache with the option to add, remove and match orders.
 
 ## Problem description
 Create an order cache with orders on input and the following operations available in the public interface:
