@@ -72,7 +72,7 @@ Clone and use CMake directly or via any IDE supporting it. CMake should:
 As a result of compilation, binary for simulations and binary for testing should be created.
 
 ## Built with
-| Tool |  Windows 10 | Ubuntu 24.04 |
+| Tool |  Windows | Ubuntu |
 | --- | --- | --- |
 | OS version | 10 22H2 | 24.04 |
 | GCC | 13.1.0 | 13.2.0 |
