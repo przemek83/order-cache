@@ -34,4 +34,4 @@ target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}-lib)
 
 enable_testing()
 include(Tests.cmake)
-add_subdirectory(test)
+add_subdirectory(tests)

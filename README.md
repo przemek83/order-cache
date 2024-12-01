@@ -125,18 +125,18 @@ The program can run in multiple ways. Here are 3 examples of how to run it:
     SecId3: 1300
     ```
 ## Testing
-For testing purposes, the Catch2 framework is used. Build the project first. Make sure that the `order-cache-test` target is built. Modern IDEs supporting CMake also support running tests with monitoring of failures. But in case you would like to run it manually, go to the `build/test` directory, where the⁣ binary `order-cache-test` should be available. Launching it should produce the following output on Linux:
+For testing purposes, the Catch2 framework is used. Build the project first. Make sure that the `order-cache-tests` target is built. Modern IDEs supporting CMake also support running tests with monitoring of failures. But in case you would like to run it manually, go to the `build/tests` directory, where the⁣ binary `order-cache-tests` should be available. Launching it should produce the following output on Linux:
 Example run:
 ```
-$ ./order-cache-test
+$ ./order-cache-tests
 Randomness seeded to: 3795383916
 ===============================================================================
 All tests passed (46 assertions in 6 test cases)
 ```
-As an alternative, CTest can be used to run tests from the `build/test` directory:
+As an alternative, CTest can be used to run tests from the `build/tests` directory:
 
     $ ctest
-    Test project /home/ja/GitHubProjects/order-cache/build/test
+    Test project /home/ja/GitHubProjects/order-cache/build/tests
         Start 1: Adding order
     1/6 Test #1: Adding order .......................................   Passed    0.00 sec
         Start 2: cancel order

@@ -3,12 +3,10 @@ name: Build & test
 on: [push, pull_request]
 
 jobs:
-  linux:
-    uses: przemek83/common/.github/workflows/build-and-test-cpp.yml@main
+  build-and-test:
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, windows-latest]
+    uses: przemek83/workflows/.github/workflows/build-and-test-cpp.yml@main
     with:
-      platform: ubuntu-latest
-
-  windows:
-    uses: przemek83/common/.github/workflows/build-and-test-cpp.yml@main
-    with:
-      platform: windows-latest
+      platform: ${{ matrix.platform }}
