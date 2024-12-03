@@ -1,8 +1,16 @@
 #include <iostream>
 #include <set>
 #include <sstream>
+#include <string>
 
 #include "OrderCache.h"
+
+namespace
+{
+void print(const std::string& txt) { std::cout << txt; }
+void println(const std::string& txt) { print(txt + '\n'); }
+
+};  // namespace
 
 int main()
 {
@@ -23,10 +31,10 @@ int main()
         securities.insert(secId);
     }
 
-    std::cout << "Matching quantity:\n";
+    println("Matching quantity:");
     for (const auto& sec : securities)
-        std::cout << sec << ": " << cache.getMatchingSizeForSecurity(sec)
-                  << "\n";
+        println(sec + ": " +
+                std::to_string(cache.getMatchingSizeForSecurity(sec)));
 
     return 0;
 }
