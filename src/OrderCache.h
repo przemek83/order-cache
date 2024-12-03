@@ -13,8 +13,8 @@ public:
     void addOrder(Order order);
     void cancelOrder(const std::string& orderId);
     void cancelOrdersForUser(const std::string& user);
-    void cancelOrdersForSecIdWithMinimumQty(const std::string& securityId,
-                                            int minQty);
+    void cancelOrdersForSecIdWithMinQty(const std::string& securityId,
+                                        int minQty);
     int getMatchingSizeForSecurity(const std::string& securityId);
     std::vector<Order> getAllOrders() const;
 

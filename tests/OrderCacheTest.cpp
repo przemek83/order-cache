@@ -193,7 +193,7 @@ TEST_CASE("cancel orders for security with minimum quantity", "[orders]")
 
     SECTION("cancel empty")
     {
-        cache.cancelOrdersForSecIdWithMinimumQty(securityIdToCancel, minQty);
+        cache.cancelOrdersForSecIdWithMinQty(securityIdToCancel, minQty);
         REQUIRE(cache.getAllOrders() == std::vector<Order>{});
     }
 
@@ -201,7 +201,7 @@ TEST_CASE("cancel orders for security with minimum quantity", "[orders]")
     {
         const Order order{"order1", "sec2", "Buy", minQty, "user1", "company1"};
         cache.addOrder(order);
-        cache.cancelOrdersForSecIdWithMinimumQty(securityIdToCancel, minQty);
+        cache.cancelOrdersForSecIdWithMinQty(securityIdToCancel, minQty);
         REQUIRE(cache.getAllOrders() == std::vector<Order>{order});
     }
 
@@ -210,8 +210,7 @@ TEST_CASE("cancel orders for security with minimum quantity", "[orders]")
         const Order order{"order1", securityIdToCancel, "Buy", minQty,
                           "user1",  "company1"};
         cache.addOrder(order);
-        cache.cancelOrdersForSecIdWithMinimumQty(securityIdToCancel,
-                                                 minQty + 1);
+        cache.cancelOrdersForSecIdWithMinQty(securityIdToCancel, minQty + 1);
         REQUIRE(cache.getAllOrders() == std::vector<Order>{order});
     }
 
@@ -220,8 +219,8 @@ TEST_CASE("cancel orders for security with minimum quantity", "[orders]")
         const Order order{"order1", securityIdToCancel, "Buy", minQty,
                           "user1",  "company1"};
         cache.addOrder(order);
-        cache.cancelOrdersForSecIdWithMinimumQty(securityIdToCancel + "wrong",
-                                                 minQty + 1);
+        cache.cancelOrdersForSecIdWithMinQty(securityIdToCancel + "wrong",
+                                             minQty + 1);
         REQUIRE(cache.getAllOrders() == std::vector<Order>{order});
     }
 
@@ -233,7 +232,7 @@ TEST_CASE("cancel orders for security with minimum quantity", "[orders]")
                            minQty,   "user1", "company1"};
         cache.addOrder(order1);
         cache.addOrder(order2);
-        cache.cancelOrdersForSecIdWithMinimumQty(securityIdToCancel, minQty);
+        cache.cancelOrdersForSecIdWithMinQty(securityIdToCancel, minQty);
         REQUIRE(cache.getAllOrders() == std::vector<Order>{order2});
     }
 
@@ -245,8 +244,8 @@ TEST_CASE("cancel orders for security with minimum quantity", "[orders]")
                            minQty,   "user1", "company1"};
         cache.addOrder(order1);
         cache.addOrder(order2);
-        cache.cancelOrdersForSecIdWithMinimumQty(securityIdToCancel, minQty);
-        cache.cancelOrdersForSecIdWithMinimumQty(securityIdToCancel, minQty);
+        cache.cancelOrdersForSecIdWithMinQty(securityIdToCancel, minQty);
+        cache.cancelOrdersForSecIdWithMinQty(securityIdToCancel, minQty);
         REQUIRE(cache.getAllOrders() == std::vector<Order>{order2});
     }
 
@@ -264,7 +263,7 @@ TEST_CASE("cancel orders for security with minimum quantity", "[orders]")
         cache.addOrder(order2);
         cache.addOrder(order3);
         cache.addOrder(order4);
-        cache.cancelOrdersForSecIdWithMinimumQty(securityIdToCancel, minQty);
+        cache.cancelOrdersForSecIdWithMinQty(securityIdToCancel, minQty);
         REQUIRE(cache.getAllOrders() == std::vector<Order>{order4, order3});
     }
 }
@@ -448,7 +447,7 @@ TEST_CASE("Benchmark", "[orders]")
 
     SECTION("cancel order for sec id with minimum qty")
     {
-        cache.cancelOrdersForSecIdWithMinimumQty("sec", 1000);
+        cache.cancelOrdersForSecIdWithMinQty("sec", 1000);
     }
 
     SECTION("get orders")

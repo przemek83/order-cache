@@ -40,8 +40,8 @@ void OrderCache::cancelOrdersForUser(const std::string& user)
     }
 }
 
-void OrderCache::cancelOrdersForSecIdWithMinimumQty(
-    const std::string& securityId, int minQty)
+void OrderCache::cancelOrdersForSecIdWithMinQty(const std::string& securityId,
+                                                int minQty)
 {
     if (ordersMap_.find(securityId) == ordersMap_.end())
         return;
@@ -103,7 +103,7 @@ std::pair<int, std::size_t> OrderCache::matchOpositeOrders(
 {
     int matchedSum{0};
     for (size_t i{fromIndex};
-         i < oppositeOrders.size() && order.getQty() > matchedSum; ++i)
+         (i < oppositeOrders.size()) && (order.getQty() > matchedSum); ++i)
     {
         Order& oppositeOrder{oppositeOrders[i]};
         if (oppositeOrder.getCompany() == order.getCompany())
@@ -115,10 +115,10 @@ std::pair<int, std::size_t> OrderCache::matchOpositeOrders(
         matchedSum += matchedQty;
 
         // Move fully matched opposite order and ignore it. Optimization.
-        if (i > fromIndex && oppositeOrder.isFullyMatched())
+        if ((i > fromIndex) && oppositeOrder.isFullyMatched())
         {
             std::swap(oppositeOrder, oppositeOrders[fromIndex]);
-            fromIndex++;
+            ++fromIndex;
         }
     }
 
@@ -152,11 +152,10 @@ OrderCache::getOrdersForMatching(const std::string& securityId)
     auto& sellOrders{getSellOrders(securityId)};
 
     // Take buy orders if there is more buy than sell. Do opposite otherwise.
-    auto& orders{buyOrders.size() > sellOrders.size() ? buyOrders : sellOrders};
-    auto& oppositeOrders{buyOrders.size() > sellOrders.size() ? sellOrders
-                                                              : buyOrders};
-
-    return {orders, oppositeOrders};
+    if (buyOrders.size() > sellOrders.size())
+        return {buyOrders, sellOrders};
+    else
+        return {sellOrders, buyOrders};
 }
 
 bool OrderCache::removeOrder(std::vector<Order>& orders,
