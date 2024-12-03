@@ -30,16 +30,16 @@ TEST_CASE("Adding order", "[orders]")
 
     SECTION("single add")
     {
-        const Order order{"order1", "sec1", "Buy", 10000, "user1", "company1"};
+        const Order order{"order1", "sec1", "Buy", 10'000, "user1", "company1"};
         cache.addOrder(order);
         REQUIRE(cache.getAllOrders() == std::vector<Order>{order});
     }
 
     SECTION("multiple add")
     {
-        const Order order1{"ord1", "sec1", "Buy", 10000, "user1", "company1"};
-        const Order order2{"ord2", "sec1", "Sell", 2000, "user1", "company2"};
-        const Order order3{"ord3", "sec1", "Sell", 1000, "user1", "company2"};
+        const Order order1{"ord1", "sec1", "Buy", 10'000, "user1", "company1"};
+        const Order order2{"ord2", "sec1", "Sell", 2'000, "user1", "company2"};
+        const Order order3{"ord3", "sec1", "Sell", 1'000, "user1", "company2"};
 
         cache.addOrder(order1);
         cache.addOrder(order2);
@@ -50,7 +50,7 @@ TEST_CASE("Adding order", "[orders]")
 
     SECTION("adding similar order with different order id - no throw")
     {
-        const Order order{"order1", "sec1", "Buy", 10000, "user1", "company1"};
+        const Order order{"order1", "sec1", "Buy", 10'000, "user1", "company1"};
         cache.addOrder(order);
         Order similarOrder{"order2",        order.getSecurityId(),
                            order.getSide(), order.getQty(),
@@ -60,7 +60,7 @@ TEST_CASE("Adding order", "[orders]")
 
     SECTION("adding similar order with different order id - check orders")
     {
-        const Order order{"order1", "sec1", "Buy", 10000, "user1", "company1"};
+        const Order order{"order1", "sec1", "Buy", 10'000, "user1", "company1"};
         cache.addOrder(order);
         Order similarOrder{"order2",        order.getSecurityId(),
                            order.getSide(), order.getQty(),
@@ -73,14 +73,14 @@ TEST_CASE("Adding order", "[orders]")
     SECTION("Creating ivalid order")
     {
         Order order{GENERATE(
-            Order{"", "sec1", "Buy", 10000, "user1", "company1"},
-            Order{"ord1", "", "Buy", 10000, "user1", "company1"},
-            Order{"ord1", "sec1", "", 10000, "user1", "company1"},
-            Order{"ord1", "sec1", "Buy", 10000, "", "company1"},
-            Order{"ord1", "sec1", "Buy", 10000, "user1", ""},
+            Order{"", "sec1", "Buy", 10'000, "user1", "company1"},
+            Order{"ord1", "", "Buy", 10'000, "user1", "company1"},
+            Order{"ord1", "sec1", "", 10'000, "user1", "company1"},
+            Order{"ord1", "sec1", "Buy", 10'000, "", "company1"},
+            Order{"ord1", "sec1", "Buy", 10'000, "user1", ""},
             Order{"ord1", "sec1", "Buy", 0, "user1", "company1"},
-            Order{"ord1", "sec1", "Buy", -1000, "user1", "company1"},
-            Order{"ord1", "sec1", "NotBuy", 10000, "user1", "company1"})};
+            Order{"ord1", "sec1", "Buy", -1'000, "user1", "company1"},
+            Order{"ord1", "sec1", "NotBuy", 10'000, "user1", "company1"})};
         REQUIRE_FALSE(order.isValid());
     }
 }
@@ -98,7 +98,7 @@ TEST_CASE("cancel order", "[orders]")
 
     SECTION("cancel not existing")
     {
-        const Order order{"order2", "sec1", "Buy", 10000, "user1", "company1"};
+        const Order order{"order2", "sec1", "Buy", 10'000, "user1", "company1"};
         cache.addOrder(order);
         cache.cancelOrder(orderIdToCancel);
         REQUIRE(cache.getAllOrders() == std::vector<Order>{order});
@@ -107,8 +107,9 @@ TEST_CASE("cancel order", "[orders]")
     SECTION("cancel existing")
     {
         const Order order1{orderIdToCancel, "sec1",  "Buy",
-                           10000,           "user1", "company1"};
-        const Order order2{"order2", "sec1", "Buy", 10000, "user1", "company1"};
+                           10'000,          "user1", "company1"};
+        const Order order2{"order2", "sec1",  "Buy",
+                           10'000,   "user1", "company1"};
         cache.addOrder(order1);
         cache.addOrder(order2);
         cache.cancelOrder(orderIdToCancel);
@@ -118,8 +119,9 @@ TEST_CASE("cancel order", "[orders]")
     SECTION("cancel existing twice")
     {
         const Order order1{orderIdToCancel, "sec1",  "Buy",
-                           10000,           "user1", "company1"};
-        const Order order2{"order2", "sec1", "Buy", 10000, "user1", "company1"};
+                           10'000,          "user1", "company1"};
+        const Order order2{"order2", "sec1",  "Buy",
+                           10'000,   "user1", "company1"};
         cache.addOrder(order1);
         cache.addOrder(order2);
         cache.cancelOrder(orderIdToCancel);
@@ -141,7 +143,7 @@ TEST_CASE("cancel orders for user", "[orders]")
 
     SECTION("cancel not existing")
     {
-        const Order order{"order1", "sec1", "Buy", 10000, "user2", "company1"};
+        const Order order{"order1", "sec1", "Buy", 10'000, "user2", "company1"};
         cache.addOrder(order);
         cache.cancelOrdersForUser(userIdToCancel);
         REQUIRE(cache.getAllOrders() == std::vector<Order>{order});
@@ -150,8 +152,9 @@ TEST_CASE("cancel orders for user", "[orders]")
     SECTION("cancel for existing")
     {
         const Order order1{"order1", "sec1",         "Buy",
-                           10000,    userIdToCancel, "company1"};
-        const Order order2{"order2", "sec1", "Buy", 10000, "user2", "company1"};
+                           10'000,   userIdToCancel, "company1"};
+        const Order order2{"order2", "sec1",  "Buy",
+                           10'000,   "user2", "company1"};
         cache.addOrder(order1);
         cache.addOrder(order2);
         cache.cancelOrdersForUser(userIdToCancel);
@@ -161,8 +164,9 @@ TEST_CASE("cancel orders for user", "[orders]")
     SECTION("cancel existing twice")
     {
         const Order order1{"order1", "sec1",         "Buy",
-                           10000,    userIdToCancel, "company1"};
-        const Order order2{"order2", "sec1", "Buy", 10000, "user2", "company1"};
+                           10'000,   userIdToCancel, "company1"};
+        const Order order2{"order2", "sec1",  "Buy",
+                           10'000,   "user2", "company1"};
         cache.addOrder(order1);
         cache.addOrder(order2);
         cache.cancelOrdersForUser(userIdToCancel);
@@ -173,10 +177,11 @@ TEST_CASE("cancel orders for user", "[orders]")
     SECTION("cancel multiple")
     {
         const Order order1{"order1", "sec1",         "Buy",
-                           10000,    userIdToCancel, "company1"};
+                           10'000,   userIdToCancel, "company1"};
         const Order order2{"order2", "sec1",         "Buy",
-                           10000,    userIdToCancel, "company1"};
-        const Order order3{"order3", "sec1", "Buy", 10000, "user2", "company1"};
+                           10'000,   userIdToCancel, "company1"};
+        const Order order3{"order3", "sec1",  "Buy",
+                           10'000,   "user2", "company1"};
         cache.addOrder(order1);
         cache.addOrder(order2);
         cache.addOrder(order3);
@@ -189,7 +194,7 @@ TEST_CASE("cancel orders for security with minimum quantity", "[orders]")
 {
     OrderCache cache;
     const std::string securityIdToCancel{"sec1"};
-    const unsigned int minQty{1000};
+    const unsigned int minQty{1'000};
 
     SECTION("cancel empty")
     {
@@ -279,53 +284,55 @@ TEST_CASE("matching quantity for security", "[orders]")
 
     SECTION("no match")
     {
-        cache.addOrder({"ord1", "sec1", "Buy", 10000, "user1", "company1"});
-        cache.addOrder({"ord2", "sec1", "Sell", 2000, "user1", "company2"});
-        cache.addOrder({"ord3", "sec1", "Sell", 1000, "user1", "company2"});
+        cache.addOrder({"ord1", "sec1", "Buy", 10'000, "user1", "company1"});
+        cache.addOrder({"ord2", "sec1", "Sell", 2'000, "user1", "company2"});
+        cache.addOrder({"ord3", "sec1", "Sell", 1'000, "user1", "company2"});
         REQUIRE(cache.getMatchingSizeForSecurity("sec2") == 0);
     }
 
     SECTION("single match")
     {
-        cache.addOrder({"ord1", "sec1", "Buy", 10000, "user1", "company1"});
-        cache.addOrder({"ord2", "sec1", "Sell", 2000, "user1", "company2"});
-        REQUIRE(cache.getMatchingSizeForSecurity("sec1") == 2000);
+        cache.addOrder({"ord1", "sec1", "Buy", 10'000, "user1", "company1"});
+        cache.addOrder({"ord2", "sec1", "Sell", 2'000, "user1", "company2"});
+        REQUIRE(cache.getMatchingSizeForSecurity("sec1") == 2'000);
     }
 
     SECTION("single exact match")
     {
-        cache.addOrder({"ord1", "sec1", "Buy", 2000, "user1", "company1"});
-        cache.addOrder({"ord2", "sec1", "Sell", 2000, "user1", "company2"});
-        REQUIRE(cache.getMatchingSizeForSecurity("sec1") == 2000);
+        cache.addOrder({"ord1", "sec1", "Buy", 2'000, "user1", "company1"});
+        cache.addOrder({"ord2", "sec1", "Sell", 2'000, "user1", "company2"});
+        REQUIRE(cache.getMatchingSizeForSecurity("sec1") == 2'000);
     }
 
     SECTION("multiple matches")
     {
-        cache.addOrder({"ord1", "sec1", "Buy", 10000, "user1", "company1"});
-        cache.addOrder({"ord2", "sec1", "Sell", 2000, "user1", "company2"});
-        cache.addOrder({"ord3", "sec1", "Sell", 1000, "user1", "company2"});
-        REQUIRE(cache.getMatchingSizeForSecurity("sec1") == 3000);
+        cache.addOrder({"ord1", "sec1", "Buy", 10'000, "user1", "company1"});
+        cache.addOrder({"ord2", "sec1", "Sell", 2'000, "user1", "company2"});
+        cache.addOrder({"ord3", "sec1", "Sell", 1'000, "user1", "company2"});
+        REQUIRE(cache.getMatchingSizeForSecurity("sec1") == 3'000);
     }
 
     SECTION("cannot reuse matching size")
     {
-        cache.addOrder({"ord1", "sec1", "Buy", 10000, "user1", "company1"});
-        cache.addOrder({"ord2", "sec1", "Sell", 2000, "user1", "company2"});
-        cache.addOrder({"ord3", "sec1", "Sell", 1000, "user1", "company2"});
+        cache.addOrder({"ord1", "sec1", "Buy", 10'000, "user1", "company1"});
+        cache.addOrder({"ord2", "sec1", "Sell", 2'000, "user1", "company2"});
+        cache.addOrder({"ord3", "sec1", "Sell", 1'000, "user1", "company2"});
         cache.getMatchingSizeForSecurity("sec1");
         REQUIRE(cache.getMatchingSizeForSecurity("sec1") == 3000);
     }
 
     SECTION("matching multiple securities #1")
     {
-        cache.addOrder({"OrdId1", "SecId1", "Buy", 1000, "User1", "CompanyA"});
-        cache.addOrder({"OrdId2", "SecId2", "Sell", 3000, "User2", "CompanyB"});
+        cache.addOrder({"OrdId1", "SecId1", "Buy", 1'000, "User1", "CompanyA"});
+        cache.addOrder(
+            {"OrdId2", "SecId2", "Sell", 3'000, "User2", "CompanyB"});
         cache.addOrder({"OrdId3", "SecId1", "Sell", 500, "User3", "CompanyA"});
         cache.addOrder({"OrdId4", "SecId2", "Buy", 600, "User4", "CompanyC"});
         cache.addOrder({"OrdId5", "SecId2", "Buy", 100, "User5", "CompanyB"});
-        cache.addOrder({"OrdId6", "SecId3", "Buy", 1000, "User6", "CompanyD"});
-        cache.addOrder({"OrdId7", "SecId2", "Buy", 2000, "User7", "CompanyE"});
-        cache.addOrder({"OrdId8", "SecId2", "Sell", 5000, "User8", "CompanyE"});
+        cache.addOrder({"OrdId6", "SecId3", "Buy", 1'000, "User6", "CompanyD"});
+        cache.addOrder({"OrdId7", "SecId2", "Buy", 2'000, "User7", "CompanyE"});
+        cache.addOrder(
+            {"OrdId8", "SecId2", "Sell", 5'000, "User8", "CompanyE"});
 
         REQUIRE(cache.getMatchingSizeForSecurity("SecId1") == 0);
         REQUIRE(cache.getMatchingSizeForSecurity("SecId2") == 2700);
@@ -344,14 +351,16 @@ TEST_CASE("matching quantity for security", "[orders]")
         cache.addOrder({"OrdId8", "SecId1", "Sell", 800, "User2", "Company1"});
         cache.addOrder({"OrdId9", "SecId2", "Buy", 900, "User6", "Company2"});
         cache.addOrder(
-            {"OrdId10", "SecId2", "Sell", 1000, "User5", "Company1"});
+            {"OrdId10", "SecId2", "Sell", 1'000, "User5", "Company1"});
         cache.addOrder(
-            {"OrdId11", "SecId1", "Sell", 1100, "User13", "Company2"});
-        cache.addOrder({"OrdId12", "SecId2", "Buy", 1200, "User9", "Company2"});
-        cache.addOrder({"OrdId13", "SecId1", "Sell", 1300, "User1", "Company"});
+            {"OrdId11", "SecId1", "Sell", 1'100, "User13", "Company2"});
+        cache.addOrder(
+            {"OrdId12", "SecId2", "Buy", 1'200, "User9", "Company2"});
+        cache.addOrder(
+            {"OrdId13", "SecId1", "Sell", 1'300, "User1", "Company"});
 
         REQUIRE(cache.getMatchingSizeForSecurity("SecId1") == 300);
-        REQUIRE(cache.getMatchingSizeForSecurity("SecId2") == 1000);
+        REQUIRE(cache.getMatchingSizeForSecurity("SecId2") == 1'000);
         REQUIRE(cache.getMatchingSizeForSecurity("SecId3") == 600);
     }
 
@@ -367,9 +376,9 @@ TEST_CASE("matching quantity for security", "[orders]")
         cache.addOrder({"OrdId8", "SecId1", "Sell", 800, "User2", "Company1"});
         cache.addOrder({"OrdId9", "SecId1", "Buy", 900, "User5", "Company2"});
         cache.addOrder(
-            {"OrdId10", "SecId1", "Sell", 1000, "User1", "Company1"});
+            {"OrdId10", "SecId1", "Sell", 1'000, "User1", "Company1"});
         cache.addOrder(
-            {"OrdId11", "SecId2", "Sell", 1100, "User6", "Company2"});
+            {"OrdId11", "SecId2", "Sell", 1'100, "User6", "Company2"});
 
         REQUIRE(cache.getMatchingSizeForSecurity("SecId1") == 900);
         REQUIRE(cache.getMatchingSizeForSecurity("SecId2") == 600);
@@ -389,9 +398,9 @@ OrderCache generate(int numberPerSecurity)
         const std::string suffixFirst{std::to_string(i)};
         const std::string suffixSecond{std::to_string(numberPerSecurity + i)};
         const std::string suffixthird{
-            std::to_string(numberPerSecurity * 2 + i)};
+            std::to_string((numberPerSecurity * 2) + i)};
         const std::string suffixFourth{
-            std::to_string(numberPerSecurity * 3 + i)};
+            std::to_string((numberPerSecurity * 3) + i)};
 
         cache.addOrder(
             {"order" + suffixFirst, "sec" + std::to_string(i % securitiesCount),
@@ -408,7 +417,7 @@ OrderCache generate(int numberPerSecurity)
              "user" + std::to_string(numberPerSecurity % 4), "company3"});
         cache.addOrder({"order" + suffixFourth,
                         "sec" + std::to_string(i % securitiesCount), "Sell",
-                        numberPerSecurity + 3 * i,
+                        (numberPerSecurity + 3) * i,
                         "user" + std::to_string(numberPerSecurity % 4),
                         "company4"});
     }
@@ -417,7 +426,7 @@ OrderCache generate(int numberPerSecurity)
 }
 
 static OrderCache defaultCache;
-const int numberPerSecurity{200000};
+const int numberPerSecurity{200'000};
 
 }  // namespace
 
@@ -434,7 +443,7 @@ TEST_CASE("Benchmark", "[orders]")
         // 20k 9989900
         // 100k 249949900 249850000
         // 200k 999899900 999612100 999900000
-        REQUIRE(cache.getMatchingSizeForSecurity("sec0") == 999900000);
+        REQUIRE(cache.getMatchingSizeForSecurity("sec0") == 999'900'000);
     }
 
     SECTION("cancel order")
@@ -447,7 +456,7 @@ TEST_CASE("Benchmark", "[orders]")
 
     SECTION("cancel order for sec id with minimum qty")
     {
-        cache.cancelOrdersForSecIdWithMinQty("sec", 1000);
+        cache.cancelOrdersForSecIdWithMinQty("sec", 1'000);
     }
 
     SECTION("get orders")
