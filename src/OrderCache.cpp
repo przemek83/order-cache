@@ -48,7 +48,7 @@ void OrderCache::cancelOrdersForSecIdWithMinQty(const std::string& securityId,
 
     const std::function<bool(const Order&)> condition{
         [&id = securityId, qty = minQty](const auto& order)
-        { return order.getSecurityId() == id && order.getQty() >= qty; }};
+        { return (order.getSecurityId() == id) && (order.getQty() >= qty); }};
 
     removeOrdersUsingCondition(getBuyOrders(securityId), condition);
     removeOrdersUsingCondition(getSellOrders(securityId), condition);
