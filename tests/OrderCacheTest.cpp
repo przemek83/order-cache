@@ -413,11 +413,11 @@ OrderCache generate(int numberPerSecurity)
                         "company2"});
         cache.addOrder(
             {"order" + suffixthird, "sec" + std::to_string(i % securitiesCount),
-             "Sell", numberPerSecurity + 2 * i,
+             "Sell", numberPerSecurity + (2 * i),
              "user" + std::to_string(numberPerSecurity % 4), "company3"});
         cache.addOrder({"order" + suffixFourth,
                         "sec" + std::to_string(i % securitiesCount), "Sell",
-                        (numberPerSecurity + 3) * i,
+                        numberPerSecurity + (3 * i),
                         "user" + std::to_string(numberPerSecurity % 4),
                         "company4"});
     }
@@ -449,7 +449,7 @@ TEST_CASE("Benchmark", "[orders]")
     SECTION("cancel order")
     {
         cache.cancelOrder("order" + std::to_string(numberPerSecurity -
-                                                   numberPerSecurity / 4));
+                                                   (numberPerSecurity / 4)));
     }
 
     SECTION("cancel order for user") { cache.cancelOrdersForUser("user3"); }
