@@ -3,13 +3,9 @@
 #include "Order.h"
 
 #include <algorithm>
-#include <stdexcept>
 
 void OrderCache::addOrder(Order order)
 {
-    if (!order.isValid())
-        throw std::logic_error("Invalid order: " + order.getOrderId());
-
     const std::string& securityId{order.getSecurityId()};
     std::vector<Order>& orders{order.isBuy() ? getBuyOrders(securityId)
                                              : getSellOrders(securityId)};

@@ -27,7 +27,10 @@ int main()
         std::string company;
         std::istringstream stream(line);
         stream >> orderId >> secId >> action >> quantity >> userId >> company;
-        cache.addOrder({orderId, secId, action, quantity, userId, company});
+        const Order order{orderId, secId, action, quantity, userId, company};
+        if (!order.isValid())
+            println("Order invalid: " + orderId);
+        cache.addOrder(order);
         securities.insert(secId);
     }
 

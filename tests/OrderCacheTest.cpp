@@ -70,7 +70,7 @@ TEST_CASE("Adding order", "[orders]")
                 std::vector<Order>{order, similarOrder});
     }
 
-    SECTION("adding ivalid order")
+    SECTION("Creating ivalid order")
     {
         Order order{GENERATE(
             Order{"", "sec1", "Buy", 10000, "user1", "company1"},
@@ -81,7 +81,7 @@ TEST_CASE("Adding order", "[orders]")
             Order{"ord1", "sec1", "Buy", 0, "user1", "company1"},
             Order{"ord1", "sec1", "Buy", -1000, "user1", "company1"},
             Order{"ord1", "sec1", "NotBuy", 10000, "user1", "company1"})};
-        REQUIRE_THROWS(cache.addOrder(order));
+        REQUIRE_FALSE(order.isValid());
     }
 }
 
