@@ -98,8 +98,9 @@ std::pair<int, std::size_t> OrderCache::matchOpositeOrders(
     std::size_t fromIndex)
 {
     int matchedSum{0};
+    const size_t oppositeOrdersCount{oppositeOrders.size()};
     for (size_t i{fromIndex};
-         (i < oppositeOrders.size()) && (order.getQty() > matchedSum); ++i)
+         (i < oppositeOrdersCount) && (order.getQty() > matchedSum); ++i)
     {
         Order& oppositeOrder{oppositeOrders[i]};
         if (oppositeOrder.getCompany() == order.getCompany())
