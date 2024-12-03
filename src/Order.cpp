@@ -28,10 +28,11 @@ void Order::resetMatchedQty() { leftToMatchQty_ = qty_; }
 
 bool Order::isValid() const
 {
-    if (orderId_.empty() || securityId_.empty() || user_.empty() ||
-        company_.empty() || qty_ <= 0)
+    if (const bool detailsEmpty{orderId_.empty() || securityId_.empty() ||
+                                user_.empty() || company_.empty()};
+        detailsEmpty || (qty_ <= 0))
         return false;
-    return side_ == "Sell" || isBuy();
+    return (side_ == "Sell") || isBuy();
 }
 
 bool Order::isFullyMatched() const { return leftToMatchQty_ == 0; }

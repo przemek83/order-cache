@@ -14,7 +14,7 @@ int main()
         std::string orderId;
         std::string secId;
         std::string action;
-        int quantity;
+        int quantity{0};
         std::string userId;
         std::string company;
         std::istringstream stream(line);
