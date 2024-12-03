@@ -7,9 +7,10 @@
 void OrderCache::addOrder(Order order)
 {
     const std::string& securityId{order.getSecurityId()};
-    std::vector<Order>& orders{order.isBuy() ? getBuyOrders(securityId)
-                                             : getSellOrders(securityId)};
-    orders.emplace_back(std::move(order));
+    if (order.isBuy())
+        getBuyOrders(securityId).emplace_back(std::move(order));
+    else
+        getSellOrders(securityId).emplace_back(std::move(order));
 }
 
 void OrderCache::cancelOrder(const std::string& orderId)
