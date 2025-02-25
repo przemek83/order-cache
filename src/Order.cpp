@@ -9,7 +9,8 @@ Order::Order(const std::string& ordId, const std::string& secId,
       qty_(qty),
       user_(user),
       company_(company),
-      leftToMatchQty_(qty)
+      leftToMatchQty_(qty),
+      isBuy_{side_ == "Buy"}
 {
 }
 
@@ -37,4 +38,4 @@ bool Order::isValid() const
 
 bool Order::isFullyMatched() const { return leftToMatchQty_ == 0; }
 
-bool Order::isBuy() const { return side_ == "Buy"; }
+bool Order::isBuy() const { return isBuy_; }

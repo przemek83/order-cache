@@ -36,4 +36,5 @@ private:
     std::string user_;
     std::string company_;
     int leftToMatchQty_;
+    bool isBuy_;
 };
